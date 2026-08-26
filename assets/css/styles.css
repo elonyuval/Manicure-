@@ -256,7 +256,7 @@ p.ltr { text-align: right; }
 /* ערימת התמונות שנפתחת ללחיצה */
 .gallery-stack {
   position: relative; display: block; width: min(100%, 30rem); margin-inline: auto;
-  aspect-ratio: 4/3.9; background: none; border: 0; padding: 0;
+  aspect-ratio: 4/3.55; background: none; border: 0; padding: 0;
 }
 .stack-card {
   position: absolute; inset-block-start: 0; width: 56%; overflow: hidden;

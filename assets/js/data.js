@@ -110,6 +110,13 @@ const L = { short: 'קצר', medium: 'בינוני', long: 'ארוך' };
 
 /** vibe – משמש למנוע ההתאמה של "מצאי את הסט שלך" */
 export const WORKS = [
+  /* ── צילומים אמיתיים מהסטודיו ── */
+  { id: 'r01', img: 'assets/img/works/real-02.jpg', title: 'בייבי בומר ורוד', shape: 'שקד', length: 'medium', style: 'אומברה רכה מוורוד לחלבי בגימור מבריק', tags: ['french', 'minimal'], vibe: ['french', 'clean'], service: 'gel' },
+  { id: 'r02', img: 'assets/img/works/real-04.jpg', title: 'אדום קלאסי', shape: 'שקד', length: 'long', style: 'אדום עז בגימור זכוכית', tags: ['color', 'long'], vibe: ['glam', 'colorful'], service: 'gel' },
+  { id: 'r03', img: 'assets/img/works/real-03.jpg', title: 'בורדו עמוק', shape: 'שקד', length: 'long', style: 'בורדו־שזיף כהה בגימור מבריק', tags: ['color', 'long', 'build'], vibe: ['glam', 'colorful'], service: 'build' },
+  { id: 'r04', img: 'assets/img/works/real-01.jpg', title: 'סטילטו טבעי', shape: 'סטילטו', length: 'long', style: 'קצה לבן טבעי בגימור מבריק', tags: ['french', 'minimal', 'long'], vibe: ['french', 'clean'], service: 'gel' },
+
+  /* ── עבודות לדוגמה (placeholders) ── */
   { id: 'w01', title: "פרנץ' מילקי", shape: 'שקד', length: 'medium', style: "קו פרנץ' עדין על בסיס מילקי", tags: ['french', 'minimal'], vibe: ['french', 'clean'], service: 'gel' },
   { id: 'w02', title: 'ניוד קלין גירל', shape: 'מרובע', length: 'short', style: 'ניוד חלק בגימור סאטן', tags: ['minimal', 'short'], vibe: ['clean'], service: 'gel' },
   { id: 'w03', title: 'כרום מלא', shape: 'שקד', length: 'long', style: 'אפקט כרום מראה על כל הציפורן', tags: ['chrome', 'long', 'build'], vibe: ['chrome', 'glam'], service: 'build' },
@@ -136,7 +143,8 @@ export const WORKS = [
   { id: 'w24', title: 'נייל ארט לילך', shape: 'בלרינה', length: 'long', style: 'ציור עדין על בסיס לילך', tags: ['art', 'color', 'long', 'build'], vibe: ['art', 'glam'], service: 'build' },
 ].map((w) => ({
   ...w,
-  img: `assets/img/works/${w.id}.svg`,
+  // צילום אמיתי מגדיר img משלו; ברירת המחדל היא ה-placeholder לפי המזהה
+  img: w.img || `assets/img/works/${w.id}.svg`,
   lengthHe: L[w.length],
   alt: `${w.title} — ${w.style}, צורה ${w.shape}, אורך ${L[w.length]} · ${STUDIO.name}`,
 }));
@@ -173,6 +181,7 @@ export const QUIZ = [
       { v: 'מרובע', label: 'מרובע', note: 'ישר ונקי' },
       { v: 'בלרינה', label: 'בלרינה', note: 'קצה ישר, צדדים מחודדים' },
       { v: 'עגול', label: 'עגול', note: 'רך וטבעי' },
+      { v: 'סטילטו', label: 'סטילטו', note: 'ארוך ומחודד' },
     ],
   },
 ];

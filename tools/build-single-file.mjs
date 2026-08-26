@@ -37,28 +37,47 @@ const app = read('assets/js/app.js')
 /* --------------------------------------------- 3. תמונות – הטמעה כ-data URI */
 
 const IMG_DIRS = ['assets/img/works', 'assets/img/site'];
+const MIME = { '.svg': 'image/svg+xml', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp' };
 const assets = {};
 for (const dir of IMG_DIRS) {
   for (const file of readdirSync(join(ROOT, dir))) {
-    if (file.endsWith('.svg')) assets[`${dir}/${file}`] = dataUri(`${dir}/${file}`, 'image/svg+xml');
+    const ext = file.slice(file.lastIndexOf('.')).toLowerCase();
+    if (MIME[ext]) assets[`${dir}/${file}`] = dataUri(`${dir}/${file}`, MIME[ext]);
   }
 }
 
 /** מחליף נתיבים סטטיים בקוד/HTML */
 const inlineStatic = (src) =>
-  src.replace(/(["'])(assets\/img\/[^"']+\.svg)\1/g, (m, q, path) =>
+  src.replace(/(["'])(assets\/img\/[^"']+\.(?:svg|jpe?g|png|webp))\1/g, (m, q, path) =>
     assets[path] ? `${q}${assets[path]}${q}` : m);
 
 /** עוטף נתיבים דינמיים (template literals) בפונקציית resolve בזמן ריצה */
 const wrapDynamic = (src) =>
   src.replace(/`(assets\/img\/[^`]*)`/g, (_, inner) => `__asset(\`${inner}\`)`);
 
-let html = inlineStatic(read('index.html'));
+/* ב-HTML מטמיעים כל תמונה פעם אחת בלבד; מופעים חוזרים מקבלים data-asset
+   ומקבלים את ה-src מהמפה בזמן טעינה — כך הקובץ לא מכיל אותה תמונה פעמיים. */
+const PIXEL = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+const seen = new Set();
+let html = read('index.html').replace(
+  /src="(assets\/img\/[^"]+\.(?:svg|jpe?g|png|webp))"/g,
+  (m, path) => {
+    if (!assets[path]) return m;
+    if (seen.has(path)) return `src="${PIXEL}" data-asset="${path}"`;
+    seen.add(path);
+    return `src="${assets[path]}"`;
+  }
+);
 
 const assetMap = `const __ASSETS = ${JSON.stringify(assets)};
-const __asset = (p) => __ASSETS[p] || p;\n`;
+const __asset = (p) => __ASSETS[p] || p;
+document.querySelectorAll('[data-asset]').forEach((el) => { el.src = __asset(el.dataset.asset); });\n`;
 
-const bundledJs = assetMap + wrapDynamic(inlineStatic(`${data}\n\n${app}`));
+const wrapStatic = (src) =>
+  src.replace(/(["'])(assets\/img\/[^"']+\.(?:svg|jpe?g|png|webp))\1/g,
+    (m, q, path) => (assets[path] ? `__asset(${q}${path}${q})` : m));
+
+const bundledJs = assetMap + wrapDynamic(wrapStatic(`${data}\n\n${app}`));
 
 /* ------------------------------------------------------- 4. הרכבת הקובץ */
 
