@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NOA — Nail Atelier | מניקור, לק ג'ל ובנייה בתל אביב</title>
+<meta name="description" content="סטודיו ציפורניים בתל אביב: לק ג'ל, מניקור, בנייה ו-Nail Art בהתאמה אישית. גלריית עבודות לפי סגנון, מחירים שקופים וקביעת תור אונליין תוך דקה.">
+<meta name="theme-color" content="#FAF6F1">
+<link rel="canonical" href="https://example.co.il/">
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="he_IL">
+<meta property="og:title" content="NOA — Nail Atelier | Your nails, your signature.">
+<meta property="og:description" content="מניקור מדויק, עיצובים בהתאמה אישית וקביעת תור אונליין. תל אביב.">
+<meta property="og:image" content="assets/img/site/og-cover.svg">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%233A2B25'/%3E%3Ctext x='16' y='22' font-family='Georgia,serif' font-size='16' fill='%23E8D8C3' text-anchor='middle'%3EN%3C/text%3E%3C/svg%3E">
+
+<link rel="preload" href="assets/fonts/assistant-hebrew.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/frank-ruhl-libre-hebrew.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/fonts.css">
+<link rel="stylesheet" href="assets/css/styles.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BeautySalon",
+  "name": "NOA — Nail Atelier",
+  "alternateName": "נועה — נייל אטלייה",
+  "description": "סטודיו ציפורניים בתל אביב המתמחה בלק ג'ל, מניקור, בנייה ו-Nail Art בהתאמה אישית.",
+  "image": "assets/img/site/og-cover.svg",
+  "url": "https://example.co.il/",
+  "telephone": "+972-52-555-1234",
+  "priceRange": "₪₪",
+  "currenciesAccepted": "ILS",
+  "paymentAccepted": "מזומן, אשראי, ביט, פייבוקס",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "אבן גבירול 71",
+    "addressLocality": "תל אביב",
+    "addressCountry": "IL"
+  },
+  "geo": { "@type": "GeoCoordinates", "latitude": 32.0853, "longitude": 34.7818 },
+  "openingHoursSpecification": [
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Sunday","Monday","Tuesday","Wednesday","Thursday"], "opens": "09:00", "closes": "19:00" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Friday", "opens": "09:00", "closes": "14:00" }
+  ],
+  "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.9", "reviewCount": "312" },
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "טיפולים",
+    "itemListElement": [
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "לק ג'ל" }, "price": "160", "priceCurrency": "ILS" },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "מניקור Clean Girl" }, "price": "95", "priceCurrency": "ILS" },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "בנייה בג'ל" }, "price": "290", "priceCurrency": "ILS" },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "מילוי" }, "price": "210", "priceCurrency": "ILS" },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "מבנה אנטומי" }, "price": "240", "priceCurrency": "ILS" },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "תיקון ציפורן" }, "price": "35", "priceCurrency": "ILS" }
+    ]
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "איפה את נמצאת?", "acceptedAnswer": { "@type": "Answer", "text": "הסטודיו נמצא באבן גבירול 71 תל אביב, קומה 2 דלת 6, כניסה מהחצר." } },
+    { "@type": "Question", "name": "איפה אפשר לחנות?", "acceptedAnswer": { "@type": "Answer", "text": "חניון גן העיר במרחק 30 מטר, וכן חניית תושבים כחול־לבן ברחוב." } },
+    { "@type": "Question", "name": "כמה זמן לוקח טיפול?", "acceptedAnswer": { "@type": "Answer", "text": "לק ג'ל כ־75 דקות, מניקור כ־45 דקות, בנייה כ־2.5 שעות ומילוי כשעתיים." } },
+    { "@type": "Question", "name": "איך מבטלים תור?", "acceptedAnswer": { "@type": "Answer", "text": "ביטול עד 24 שעות מראש ללא עלות. ביטול מאוחר יותר מחויב ב־50% מהטיפול." } },
+    { "@type": "Question", "name": "אילו אמצעי תשלום קיימים?", "acceptedAnswer": { "@type": "Answer", "text": "מזומן, ביט, פייבוקס, אשראי ותשלומים החל מ־300 ₪." } }
+  ]
+}
+</script>
+</head>
+
+<body>
+<a class="skip-link" href="#gallery">דלגי לגלריית העבודות</a>
+
+<!-- ═══════════════════════════════════════════════════════ HEADER -->
+<header class="site-header" id="siteHeader">
+  <div class="wrap header-inner">
+    <a class="brand" href="#top" aria-label="NOA Nail Atelier — לראש העמוד">
+      <span class="brand-mark">N</span>
+      <span class="brand-text">
+        <span class="brand-name">NOA</span>
+        <span class="brand-sub">nail atelier</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="ניווט ראשי">
+      <a href="#gallery">עבודות</a>
+      <a href="#services">טיפולים</a>
+      <a href="#finder">מצאי את הסט</a>
+      <a href="#about">עליי</a>
+      <a href="#faq">שאלות</a>
+      <a href="#contact">צרי קשר</a>
+    </nav>
+
+    <div class="header-cta">
+      <a class="btn btn-ghost btn-sm hide-sm" data-wa href="#" target="_blank" rel="noopener">WhatsApp</a>
+      <a class="btn btn-dark btn-sm" href="#booking" data-book>קבעי תור</a>
+    </div>
+
+    <button class="burger" id="burger" aria-label="פתיחת תפריט" aria-expanded="false" aria-controls="mobileNav">
+      <span></span><span></span>
+    </button>
+  </div>
+
+  <nav class="mobile-nav" id="mobileNav" aria-label="ניווט מובייל" hidden>
+    <a href="#gallery">גלריית עבודות</a>
+    <a href="#services">טיפולים ומחירים</a>
+    <a href="#finder">מצאי את הסט שלך</a>
+    <a href="#about">עליי</a>
+    <a href="#reviews">ביקורות</a>
+    <a href="#faq">שאלות נפוצות</a>
+    <a href="#contact">צרי קשר והגעה</a>
+  </nav>
+</header>
+
+<main id="top">
+
+  <!-- ═════════════════════════════════════════════════════ HERO -->
+  <section class="hero" aria-labelledby="heroTitle">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow reveal">סטודיו ציפורניים · תל אביב</p>
+        <h1 class="hero-title reveal" id="heroTitle">
+          <span class="en-display">Your nails,</span>
+          <span class="en-display italic">your signature.</span>
+        </h1>
+        <p class="hero-sub reveal">
+          מניקור מדויק, עיצובים בהתאמה אישית ותוצאה שאת לא מפסיקה להסתכל עליה.
+        </p>
+        <div class="hero-actions reveal">
+          <a class="btn btn-dark" href="#booking" data-book>קבעי תור</a>
+          <a class="btn btn-outline" href="#gallery">לגלריית העבודות</a>
+        </div>
+        <div class="social-proof reveal" aria-label="דירוג לקוחות">
+          <span class="stars" aria-hidden="true">★★★★★</span>
+          <strong>4.9</strong>
+          <span class="proof-text">מאות לקוחות מרוצות · 312 ביקורות</span>
+        </div>
+      </div>
+
+      <div class="hero-media reveal">
+        <figure class="hero-frame">
+          <img src="assets/img/site/hero.svg" width="1200" height="1500" fetchpriority="high" decoding="async"
+               alt="ידיים עם מניקור French עדין בגימור חלבי — סטודיו NOA">
+        </figure>
+        <figure class="hero-frame hero-frame-sm">
+          <img src="assets/img/site/hero-detail.svg" width="900" height="900" loading="lazy" decoding="async"
+               alt="קלוז אפ של ציפורניים בגימור Chrome מטאלי">
+        </figure>
+        <div class="hero-badge">
+          <span class="badge-num">1,000+</span>
+          <span class="badge-text">לקוחות מרוצות</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <span>French</span><span>·</span><span>Chrome</span><span>·</span><span>Clean Girl</span><span>·</span>
+        <span>Almond</span><span>·</span><span>Coffin</span><span>·</span><span>Nail Art</span><span>·</span>
+        <span>Baby Boomer</span><span>·</span><span>Square</span><span>·</span>
+        <span>French</span><span>·</span><span>Chrome</span><span>·</span><span>Clean Girl</span><span>·</span>
+        <span>Almond</span><span>·</span><span>Coffin</span><span>·</span><span>Nail Art</span><span>·</span>
+        <span>Baby Boomer</span><span>·</span><span>Square</span><span>·</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════════════════ GALLERY -->
+  <section class="section gallery-section" id="gallery" aria-labelledby="galleryTitle">
+    <div class="wrap">
+      <header class="section-head reveal">
+        <p class="eyebrow">Portfolio</p>
+        <h2 class="section-title" id="galleryTitle">מחפשת השראה לסט הבא שלך?</h2>
+        <p class="section-sub">
+          כל העבודות מסודרות לפי סגנון, אורך וצורה. סנני, בחרי מה שאהבת — ותוכלי לשלוח לי בדיוק את העיצוב הזה בקביעת התור.
+        </p>
+      </header>
+
+      <div class="filters reveal" id="filters" role="group" aria-label="סינון עבודות לפי סגנון"></div>
+      <p class="filter-count" id="filterCount" aria-live="polite"></p>
+
+      <div class="grid-works" id="worksGrid"></div>
+
+      <div class="gallery-more reveal">
+        <button class="btn btn-outline" id="loadMore" type="button">להצגת עוד עבודות</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════════════════ SERVICES -->
+  <section class="section services-section" id="services" aria-labelledby="servicesTitle">
+    <div class="wrap">
+      <header class="section-head reveal">
+        <p class="eyebrow">Treatments</p>
+        <h2 class="section-title" id="servicesTitle">הטיפולים שלנו</h2>
+        <p class="section-sub">מחירים ומשך טיפול גלויים מראש — בלי לשאול, בלי להתמקח, בלי הפתעות בסוף.</p>
+      </header>
+
+      <div class="grid-services" id="servicesGrid"></div>
+
+      <p class="services-note reveal">
+        המחירים כוללים הסרה של עבודה קודמת שבוצעה בסטודיו. הסרת עבודה ממקום אחר — תוספת 40 ₪.
+      </p>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════════════════ FINDER -->
+  <section class="section finder-section" id="finder" aria-labelledby="finderTitle">
+    <div class="wrap">
+      <div class="finder-card reveal">
+        <div class="finder-intro" id="finderIntro">
+          <p class="eyebrow">Find your nails</p>
+          <h2 class="section-title" id="finderTitle">לא יודעת מה לעשות הפעם?</h2>
+          <p class="section-sub">
+            שלוש שאלות קצרות, ואני מציעה לך את הסטים שהכי מתאימים לוייב, לאורך ולצורה שאת אוהבת.
+          </p>
+          <button class="btn btn-dark" type="button" id="startQuiz">מצאי את הסט שלך</button>
+        </div>
+
+        <div class="quiz" id="quiz" hidden>
+          <div class="quiz-progress" aria-hidden="true"><span id="quizBar"></span></div>
+          <div class="quiz-body" id="quizBody"></div>
+          <div class="quiz-foot">
+            <button class="link-btn" type="button" id="quizBack">חזרה</button>
+            <span class="quiz-step" id="quizStep"></span>
+          </div>
+        </div>
+
+        <div class="quiz-result" id="quizResult" hidden></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════════════════ BOOKING -->
+  <section class="section booking-section" id="booking" aria-labelledby="bookingTitle">
+    <div class="wrap">
+      <header class="section-head reveal">
+        <p class="eyebrow">Booking</p>
+        <h2 class="section-title" id="bookingTitle">קביעת תור</h2>
+        <p class="section-sub">גם ב־23:00 בלילה. בוחרות טיפול, תאריך ושעה — ומקבלות אישור.</p>
+      </header>
+
+      <div class="booking-card reveal">
+        <ol class="steps" id="steps" aria-label="שלבי קביעת התור">
+          <li data-step="1"><span>1</span>טיפול</li>
+          <li data-step="2"><span>2</span>תאריך</li>
+          <li data-step="3"><span>3</span>שעה</li>
+          <li data-step="4"><span>4</span>פרטים</li>
+          <li data-step="5"><span>5</span>אישור</li>
+        </ol>
+
+        <div class="picked-design" id="pickedDesign" hidden></div>
+
+        <div class="booking-body" id="bookingBody"></div>
+
+        <div class="booking-foot">
+          <button class="btn btn-outline btn-sm" type="button" id="bookBack" hidden>חזרה</button>
+          <p class="booking-hint" id="bookHint"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════════════════ WHY -->
+  <section class="section why-section" aria-labelledby="whyTitle">
+    <div class="wrap">
+      <header class="section-head reveal">
+        <p class="eyebrow">Why NOA</p>
+        <h2 class="section-title" id="whyTitle">למה לקוחות נשארות</h2>
+      </header>
+      <ul class="values" id="valuesList"></ul>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════════════════ ABOUT -->
+  <section class="section about-section" id="about" aria-labelledby="aboutTitle">
+    <div class="wrap about-grid">
+      <figure class="about-media reveal">
+        <img src="assets/img/site/artist.svg" width="900" height="1150" loading="lazy" decoding="async"
+             alt="נועה בן־חיים, מייסדת סטודיו NOA Nail Atelier">
+        <figcaption>נועה בן־חיים · Founder & Nail Artist</figcaption>
+      </figure>
+
+      <div class="about-copy reveal">
+        <p class="eyebrow">About</p>
+        <h2 class="section-title" id="aboutTitle">נעים מאוד, אני נועה</h2>
+        <p>
+          התחלתי מלק ג’ל על שולחן המטבח, וחמש שנים אחר כך יש לי סטודיו קטן ושקט באבן גבירול
+          שאני מאוד גאה בו. אני עובדת עם לקוחה אחת בכל פעם, כי בשבילי טיפול ציפורניים הוא לא רק
+          תוצאה — הוא גם שעה שבה מותר לך פשוט לשבת.
+        </p>
+        <p>
+          אני אוהבת עבודה נקייה: קשת מדויקת, קצוות מסודרים וגוונים שמחמיאים לעור. אם את מגיעה עם
+          תמונה — נלך איתה. אם את מגיעה בלי מושג — נבחר יחד, ותצאי עם משהו שמרגיש כמוך.
+        </p>
+        <ul class="stats" id="statsList"></ul>
+        <a class="btn btn-dark" href="#booking" data-book>קבעי תור אצלי</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════════════════ REVIEWS -->
+  <section class="section reviews-section" id="reviews" aria-labelledby="reviewsTitle">
+    <div class="wrap">
+      <header class="section-head reveal">
+        <p class="eyebrow">Testimonials</p>
+        <h2 class="section-title" id="reviewsTitle">לקוחות מספרות</h2>
+        <p class="section-sub"><strong>4.9 ★</strong> · 312 ביקורות ב-Google</p>
+      </header>
+      <div class="reviews-rail" id="reviewsRail"></div>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════════════════ FAQ -->
+  <section class="section faq-section" id="faq" aria-labelledby="faqTitle">
+    <div class="wrap faq-grid">
+      <header class="section-head reveal faq-head">
+        <p class="eyebrow">FAQ</p>
+        <h2 class="section-title" id="faqTitle">שאלות נפוצות</h2>
+        <p class="section-sub">כל מה שנשאלתי בוואטסאפ בשנה האחרונה — כאן, מסודר.</p>
+        <a class="btn btn-outline btn-sm" data-wa href="#" target="_blank" rel="noopener">לא מצאת? כתבי לי</a>
+      </header>
+      <div class="faq-list reveal" id="faqList"></div>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════════════════ INSTAGRAM -->
+  <section class="section feed-section" aria-labelledby="feedTitle">
+    <div class="wrap">
+      <header class="section-head reveal">
+        <p class="eyebrow ltr">@noa.nail.atelier</p>
+        <h2 class="section-title en-display" id="feedTitle">Follow the studio</h2>
+        <p class="section-sub">מאחורי הקלעים, סטים חדשים ורילסים מהסטודיו.</p>
+      </header>
+      <div class="feed-grid" id="feedGrid"></div>
+      <div class="feed-cta reveal">
+        <a class="btn btn-outline" href="https://instagram.com/" target="_blank" rel="noopener">לעוד עבודות באינסטגרם</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════════════════ CONTACT -->
+  <section class="section contact-section" id="contact" aria-labelledby="contactTitle">
+    <div class="wrap">
+      <header class="section-head reveal">
+        <p class="eyebrow">Contact</p>
+        <h2 class="section-title" id="contactTitle">איך מגיעים אליי</h2>
+      </header>
+
+      <div class="contact-grid">
+        <div class="contact-info reveal">
+          <dl class="info-list">
+            <div>
+              <dt>כתובת</dt>
+              <dd>אבן גבירול 71, תל אביב<br><span class="muted">קומה 2, דלת 6 · כניסה מהחצר</span></dd>
+            </div>
+            <div>
+              <dt>חניה</dt>
+              <dd>חניון גן העיר במרחק 30 מטר, וכן חניית תושבים כחול־לבן ברחוב.</dd>
+            </div>
+            <div>
+              <dt>טלפון</dt>
+              <dd><a href="tel:+972525551234">052-555-1234</a></dd>
+            </div>
+            <div>
+              <dt>WhatsApp</dt>
+              <dd><a data-wa href="#" target="_blank" rel="noopener">שליחת הודעה מהירה</a></dd>
+            </div>
+            <div>
+              <dt>Instagram</dt>
+              <dd><a class="ltr" href="https://instagram.com/" target="_blank" rel="noopener">@noa.nail.atelier</a></dd>
+            </div>
+            <div>
+              <dt>שעות פעילות</dt>
+              <dd id="hoursList"></dd>
+            </div>
+          </dl>
+          <a class="btn btn-dark" href="#booking" data-book>קבעי תור</a>
+        </div>
+
+        <div class="contact-map reveal">
+          <a class="map-frame" href="https://maps.google.com/?q=%D7%90%D7%91%D7%9F+%D7%92%D7%91%D7%99%D7%A8%D7%95%D7%9C+71+%D7%AA%D7%9C+%D7%90%D7%91%D7%99%D7%91"
+             target="_blank" rel="noopener" aria-label="פתיחת הכתובת ב-Google Maps">
+            <svg viewBox="0 0 600 420" role="img" aria-hidden="true" class="map-svg">
+              <rect width="600" height="420" fill="#EFE7DF"/>
+              <g stroke="#DDCFC2" stroke-width="10" fill="none">
+                <path d="M-10 90 H610"/><path d="M-10 230 H610"/><path d="M-10 350 H610"/>
+                <path d="M120 -10 V430"/><path d="M330 -10 V430"/><path d="M480 -10 V430"/>
+              </g>
+              <rect x="130" y="100" width="190" height="120" fill="#E4D8CB"/>
+              <rect x="345" y="240" width="120" height="100" fill="#E4D8CB"/>
+              <path d="M0 300 L600 260" stroke="#CBB9A8" stroke-width="26" fill="none"/>
+              <circle cx="330" cy="230" r="46" fill="#3A2B25" opacity="0.12"/>
+              <path d="M330 196 a22 22 0 0 1 22 22 c0 16 -22 40 -22 40 s-22 -24 -22 -40 a22 22 0 0 1 22 -22 z" fill="#3A2B25"/>
+              <circle cx="330" cy="218" r="8" fill="#E8D8C3"/>
+            </svg>
+            <span class="map-pill">פתיחה ב-Google Maps ←</span>
+          </a>
+          <p class="map-note">
+            הסטודיו נגיש במעלית. אם את מגיעה בתחבורה ציבורית — תחנת “גן העיר” במרחק שתי דקות הליכה.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ═════════════════════════════════════════════════════ FOOTER -->
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <div class="footer-brand">
+      <span class="brand-name en-display">NOA — NAIL ATELIER</span>
+      <p>אבן גבירול 71, תל אביב · 052-555-1234</p>
+    </div>
+    <nav class="footer-nav" aria-label="ניווט תחתון">
+      <a href="#gallery">עבודות</a>
+      <a href="#services">טיפולים</a>
+      <a href="#booking">קביעת תור</a>
+      <a href="#faq">שאלות</a>
+      <a href="#contact">הגעה</a>
+    </nav>
+    <p class="footer-legal">© <span id="year"></span> NOA Nail Atelier · אתר דמו להדגמה</p>
+  </div>
+</footer>
+
+<!-- ═════════════════════════════════════════════════════ STICKY BAR -->
+<div class="sticky-bar" id="stickyBar">
+  <a class="sticky-wa" data-wa href="#" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" aria-hidden="true" width="18" height="18"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2Zm5.6 14.2c-.2.7-1.2 1.3-1.9 1.4-.5.1-1.1.1-1.8-.1a13 13 0 0 1-5.9-4.6c-.6-.9-1-1.9-1-2.9 0-.9.4-1.6.8-2 .2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2 0 .4-.1.6l-.4.5c-.1.2-.3.3-.1.6.5.8 1 1.4 1.7 2 .6.5 1.1.8 1.6 1 .2.1.4.1.6-.1l.7-.8c.2-.2.3-.2.6-.1l1.8.9c.2.1.4.2.4.3.1.2.1.6-.1 1.3Z"/></svg>
+    WhatsApp
+  </a>
+  <a class="sticky-book" href="#booking" data-book>קביעת תור</a>
+</div>
+
+<!-- ═════════════════════════════════════════════════════ MODAL -->
+<div class="modal" id="workModal" hidden>
+  <div class="modal-backdrop" data-close-modal></div>
+  <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <button class="modal-close" type="button" data-close-modal aria-label="סגירה">✕</button>
+    <div class="modal-content" id="modalContent"></div>
+    <div class="modal-nav">
+      <button class="link-btn" type="button" id="modalPrev">→ הקודם</button>
+      <button class="link-btn" type="button" id="modalNext">הבא ←</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<script type="module" src="assets/js/app.js"></script>
+</body>
+</html>

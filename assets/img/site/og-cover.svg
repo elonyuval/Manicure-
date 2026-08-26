@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img">
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FAF6F1"/><stop offset="1" stop-color="#E5D2C2"/></linearGradient></defs>
+  <rect width="1200" height="630" fill="url(#g)"/>
+  <text x="600" y="300" text-anchor="middle" font-family="Georgia, serif" font-size="82" letter-spacing="10" fill="#3A2B25">NOA — NAIL ATELIER</text>
+  <text x="600" y="372" text-anchor="middle" font-family="Georgia, serif" font-size="34" letter-spacing="6" fill="#8C6552">Your nails, your signature.</text>
+  <text x="600" y="452" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#5A4136">מניקור מדויק ועיצובים בהתאמה אישית · תל אביב</text>
+</svg>
