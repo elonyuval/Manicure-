@@ -579,14 +579,20 @@ p.ltr { text-align: right; }
 
 /* ================================================== 5. חלון הגלריה */
 .viewer { position: fixed; inset: 0; z-index: 120; display: grid; place-items: end center; }
-.viewer-backdrop { position: absolute; inset: 0; background: rgba(28,19,15,.72); backdrop-filter: blur(6px); animation: fade .35s var(--ease); }
+.viewer-backdrop {
+  position: absolute; inset: 0;
+  background: rgba(58, 43, 37, .46); backdrop-filter: blur(7px);
+  animation: fade .35s var(--ease);
+}
 @keyframes fade { from { opacity: 0; } }
 
 .viewer-panel {
   position: relative; display: grid; grid-template-rows: auto auto 1fr auto auto;
   width: min(1180px, 100%); height: min(94dvh, 100%);
-  background: var(--espresso); color: var(--ivory);
+  background: var(--cream); color: var(--espresso);
+  border: 1px solid var(--line); border-bottom: 0;
   border-radius: var(--r-xl) var(--r-xl) 0 0; overflow: hidden;
+  box-shadow: 0 -20px 80px -30px rgba(51,36,30,.55);
   animation: sheetUp .5s var(--ease-out);
 }
 @keyframes sheetUp { from { transform: translateY(34px); opacity: 0; } }
@@ -597,37 +603,38 @@ p.ltr { text-align: right; }
 }
 .viewer-heading { font-size: 1.2rem; }
 .viewer-count {
-  font-family: var(--font-num); font-size: 1.05rem; color: var(--champagne);
+  font-family: var(--font-num); font-size: 1.1rem; color: var(--nude);
   direction: ltr; unicode-bidi: isolate; margin-inline-start: auto;
 }
 .viewer-close {
-  flex: none; width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgba(232,216,195,.28);
-  background: rgba(255,255,255,.05); color: var(--ivory); font-size: .9rem;
-  transition: background-color .3s, transform .3s;
+  flex: none; width: 40px; height: 40px; border-radius: 50%;
+  border: 1px solid var(--line); background: var(--ivory); color: var(--espresso); font-size: .9rem;
+  transition: background-color .3s, transform .3s, border-color .3s;
 }
-.viewer-close:hover { background: rgba(255,255,255,.14); transform: rotate(90deg); }
+.viewer-close:hover { background: var(--espresso); border-color: var(--espresso); color: var(--ivory); transform: rotate(90deg); }
 
 .viewer-filters {
   display: flex; gap: .45rem; overflow-x: auto; scrollbar-width: none;
   padding: .5rem clamp(1rem, 3vw, 1.8rem) .9rem;
 }
 .viewer-filters::-webkit-scrollbar { display: none; }
-.viewer .chip { background: rgba(255,255,255,.06); border-color: rgba(232,216,195,.24); color: rgba(250,246,241,.82); }
-.viewer .chip:hover { border-color: var(--champagne); }
-.viewer .chip[aria-pressed="true"] { background: var(--champagne); border-color: var(--champagne); color: var(--espresso); }
 
+/* במה: רקע שמנת חם שמבליט את התמונה */
 .viewer-stage {
   position: relative; min-height: 0;
-  padding-inline: clamp(1rem, 3vw, 1.8rem);
+  padding: .2rem clamp(1rem, 3vw, 1.8rem);
+  background:
+    radial-gradient(120% 90% at 50% 40%, rgba(232,216,195,.5), rgba(232,216,195,0) 70%),
+    var(--ivory-deep);
   touch-action: pan-y;
 }
 /* מיקום מוחלט נותן לתמונה גובה מוגדר להתכווץ אליו */
-.viewer-figure { position: absolute; inset: 0; z-index: 1; margin: 0; display: grid; place-items: center; }
+.viewer-figure { position: absolute; inset: .8rem clamp(1rem, 3vw, 1.8rem); z-index: 1; margin: 0; display: grid; place-items: center; }
 .viewer-figure img {
   /* min-height:0 חיוני – פריט grid לא מתכווץ מתחת לגודלו הטבעי בלעדיו */
   min-height: 0; min-width: 0;
   max-height: 100%; max-width: 100%; width: auto; height: auto; object-fit: contain;
-  border-radius: var(--r-lg); box-shadow: 0 30px 70px -30px rgba(0,0,0,.7);
+  border-radius: var(--r-lg); box-shadow: var(--shadow-lg);
 }
 .viewer-figure.is-swapping img { animation: swapIn .45s var(--ease-out); }
 @keyframes swapIn { from { opacity: 0; transform: scale(.985); } }
@@ -635,12 +642,12 @@ p.ltr { text-align: right; }
 .viewer-nav {
   position: absolute; top: 50%; translate: 0 -50%; z-index: 2;
   display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%;
-  border: 1px solid rgba(232,216,195,.3); background: rgba(28,19,15,.55); color: var(--ivory);
-  backdrop-filter: blur(6px);
-  transition: background-color .3s, transform .3s, border-color .3s;
+  border: 1px solid var(--line); background: rgba(255,253,250,.92); color: var(--espresso);
+  backdrop-filter: blur(6px); box-shadow: var(--shadow-sm);
+  transition: background-color .3s, color .3s, transform .3s, border-color .3s;
 }
-.viewer-nav:hover { background: var(--champagne); color: var(--espresso); border-color: var(--champagne); }
-.viewer-nav[disabled] { opacity: .25; pointer-events: none; }
+.viewer-nav:hover { background: var(--espresso); color: var(--ivory); border-color: var(--espresso); }
+.viewer-nav[disabled] { opacity: .3; pointer-events: none; }
 /* בעברית: "הקודם" בצד ימין, "הבא" בצד שמאל */
 .viewer-prev { inset-inline-start: clamp(.4rem, 1.5vw, 1rem); }
 .viewer-next { inset-inline-end: clamp(.4rem, 1.5vw, 1rem); }
@@ -650,36 +657,33 @@ p.ltr { text-align: right; }
   padding: 1rem clamp(1rem, 3vw, 1.8rem) .2rem;
 }
 .viewer-text h3 { font-size: clamp(1.4rem, 3.4vw, 1.9rem); }
-.viewer-text p { margin: .2rem 0 0; color: rgba(250,246,241,.62); font-size: var(--fs-sm); }
+.viewer-text p { margin: .2rem 0 0; color: var(--espresso-60); font-size: var(--fs-sm); }
 .viewer-specs { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .9rem; }
 .viewer-specs li {
   display: flex; align-items: baseline; gap: .35rem;
   padding: .35rem .85rem; border-radius: 999px;
-  background: rgba(255,255,255,.06); border: 1px solid rgba(232,216,195,.18);
+  background: var(--ivory); border: 1px solid var(--line);
   font-size: var(--fs-xs);
 }
-.viewer-specs span { color: rgba(250,246,241,.5); }
+.viewer-specs span { color: var(--espresso-60); }
 .viewer-specs b { font-weight: 600; }
 .viewer-actions { display: flex; flex-wrap: wrap; gap: .5rem; }
-.viewer-actions .btn-dark { --btn-bg: var(--champagne); --btn-fg: var(--espresso); --btn-bd: var(--champagne); }
-.viewer-actions .btn-dark:hover { --btn-bg: #fff; --btn-bd: #fff; }
-.viewer-actions .btn-outline { --btn-bd: rgba(232,216,195,.4); --btn-fg: var(--ivory); }
-.viewer-actions .btn-outline:hover { --btn-bd: var(--champagne); background: rgba(255,255,255,.06); }
-.viewer-empty { color: rgba(250,246,241,.7); }
+.viewer-empty { color: var(--espresso-60); }
 
 .viewer-thumbs {
   display: flex; gap: .4rem; overflow-x: auto; scrollbar-width: none;
   padding: .9rem clamp(1rem, 3vw, 1.8rem) calc(1rem + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--line); background: var(--ivory);
 }
 .viewer-thumbs::-webkit-scrollbar { display: none; }
 .viewer-thumb {
   flex: none; width: 52px; padding: 0; overflow: hidden; border-radius: var(--r-sm);
-  border: 1px solid transparent; background: rgba(255,255,255,.06); opacity: .55;
-  transition: opacity .3s, border-color .3s, transform .3s;
+  border: 1px solid var(--line); background: var(--ivory-deep); opacity: .6;
+  transition: opacity .3s, border-color .3s, transform .3s, box-shadow .3s;
 }
 .viewer-thumb img { width: 100%; aspect-ratio: 3/4; object-fit: cover; }
-.viewer-thumb:hover { opacity: .85; transform: translateY(-2px); }
-.viewer-thumb.is-current { opacity: 1; border-color: var(--champagne); }
+.viewer-thumb:hover { opacity: .9; transform: translateY(-2px); }
+.viewer-thumb.is-current { opacity: 1; border-color: var(--nude); box-shadow: 0 0 0 1px var(--nude); }
 
 /* --------------------------------------------- 6. תנועה ורספונסיביות */
 .reveal { opacity: 0; transform: translateY(26px); transition: opacity .8s var(--ease-out), transform .8s var(--ease-out); }

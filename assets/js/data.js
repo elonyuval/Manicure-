@@ -76,7 +76,7 @@ export const SERVICES = [
   {
     id: 'art',
     name: 'ציורים ועיצובים',
-    desc: 'ציורים, כרום, פוילים ואבנים. נבנה יחד את העיצוב לפי השראה שתביאי — או שנמצא אותה כאן באתר.',
+    desc: 'ציורים, אפקט מראה, נצנצים ואבנים. נבנה יחד את העיצוב לפי השראה שתביאי — או שנמצא אותה כאן באתר.',
     price: 25,
     priceNote: 'לציפורן',
     duration: 30,
@@ -84,7 +84,7 @@ export const SERVICES = [
   {
     id: 'repair',
     name: 'תיקון ציפורן',
-    desc: 'נשברה ציפורן? מגיעים לתיקון נקודתי מהיר, בלי לפרק את כל הסט.',
+    desc: 'נשברה ציפורן? מגיעים לתיקון נקודתי מהיר, בלי לפרק את כל העבודה.',
     price: 35,
     duration: 20,
   },
@@ -94,9 +94,9 @@ export const SERVICES = [
 
 export const FILTERS = [
   { id: 'all', label: 'הכול' },
-  { id: 'french', label: "פרנץ'" },
+  { id: 'french', label: 'צרפתי' },
   { id: 'minimal', label: 'נקי ומינימלי' },
-  { id: 'chrome', label: 'כרום' },
+  { id: 'chrome', label: 'מראה מטאלית' },
   { id: 'art', label: 'ציורים' },
   { id: 'color', label: 'צבעוני' },
   { id: 'short', label: 'קצר' },
@@ -108,32 +108,32 @@ export const FILTERS = [
 
 const L = { short: 'קצר', medium: 'בינוני', long: 'ארוך' };
 
-/** vibe – משמש למנוע ההתאמה של "מצאי את הסט שלך" */
+/** vibe – משמש למנוע ההתאמה של "מצאי את העיצוב שלך" */
 export const WORKS = [
-  { id: 'w01', title: "פרנץ' חלבי", shape: 'אלמונד', length: 'medium', style: "קו פרנץ' עדין על בסיס חלבי", tags: ['french', 'minimal'], vibe: ['french', 'clean'], service: 'gel' },
-  { id: 'w02', title: 'ניוד נקי', shape: 'מרובע', length: 'short', style: 'ניוד חלק בגימור סאטן', tags: ['minimal', 'short'], vibe: ['clean'], service: 'gel' },
-  { id: 'w03', title: 'כרום מראה', shape: 'אלמונד', length: 'long', style: 'אפקט מראה מלא', tags: ['chrome', 'long', 'build'], vibe: ['chrome', 'glam'], service: 'build' },
-  { id: 'w04', title: 'דובדבן עמוק', shape: 'קופין', length: 'long', style: 'אדום דובדבן רווי', tags: ['color', 'long', 'build'], vibe: ['glam', 'colorful'], service: 'build' },
+  { id: 'w01', title: 'צרפתי חלבי', shape: 'שקד', length: 'medium', style: 'קו צרפתי עדין על בסיס חלבי', tags: ['french', 'minimal'], vibe: ['french', 'clean'], service: 'gel' },
+  { id: 'w02', title: 'טבעי נקי', shape: 'מרובע', length: 'short', style: 'גוון עור חלק בגימור משיי', tags: ['minimal', 'short'], vibe: ['clean'], service: 'gel' },
+  { id: 'w03', title: 'מראה מלאה', shape: 'שקד', length: 'long', style: 'אפקט מראה מטאלי מלא', tags: ['chrome', 'long', 'build'], vibe: ['chrome', 'glam'], service: 'build' },
+  { id: 'w04', title: 'דובדבן עמוק', shape: 'בלרינה', length: 'long', style: 'אדום דובדבן רווי', tags: ['color', 'long', 'build'], vibe: ['glam', 'colorful'], service: 'build' },
   { id: 'w05', title: 'אמבט חלב', shape: 'עגול', length: 'short', style: 'לבן שקוף וטבעי', tags: ['minimal', 'short'], vibe: ['clean'], service: 'manicure' },
-  { id: 'w06', title: 'אומברה מוקה', shape: 'אלמונד', length: 'medium', style: 'מעבר גוונים חום־קרם', tags: ['color', 'minimal'], vibe: ['clean', 'colorful'], service: 'gel' },
-  { id: 'w07', title: 'אספרסו מרובע', shape: 'מרובע', length: 'medium', style: 'חום אספרסו מלא', tags: ['color'], vibe: ['glam', 'colorful'], service: 'gel' },
-  { id: 'w08', title: 'קווים על תכלת', shape: 'אלמונד', length: 'medium', style: 'ציורי קו דקים על תכלת', tags: ['art', 'color'], vibe: ['art', 'colorful'], service: 'art' },
-  { id: 'w09', title: "פרנץ' ניוד", shape: 'קופין', length: 'long', style: "פרנץ' קלאסי על בסיס ניוד", tags: ['french', 'long', 'build'], vibe: ['french', 'glam'], service: 'build' },
+  { id: 'w06', title: 'מעבר חום־קרם', shape: 'שקד', length: 'medium', style: 'מעבר גוונים רך מחום לקרם', tags: ['color', 'minimal'], vibe: ['clean', 'colorful'], service: 'gel' },
+  { id: 'w07', title: 'חום קפה', shape: 'מרובע', length: 'medium', style: 'חום קפה עשיר ואטום', tags: ['color'], vibe: ['glam', 'colorful'], service: 'gel' },
+  { id: 'w08', title: 'קווים על תכלת', shape: 'שקד', length: 'medium', style: 'ציורי קו דקים על תכלת', tags: ['art', 'color'], vibe: ['art', 'colorful'], service: 'art' },
+  { id: 'w09', title: 'צרפתי בגוון עור', shape: 'בלרינה', length: 'long', style: 'קו צרפתי קלאסי על בסיס בגוון עור', tags: ['french', 'long', 'build'], vibe: ['french', 'glam'], service: 'build' },
   { id: 'w10', title: 'נקודות חמאה', shape: 'מרובע', length: 'short', style: 'נקודות לבנות על צהוב רך', tags: ['art', 'color', 'short'], vibe: ['art', 'colorful'], service: 'art' },
-  { id: 'w11', title: 'כרום קופין', shape: 'קופין', length: 'long', style: 'כרום קר על בנייה', tags: ['chrome', 'long', 'build'], vibe: ['chrome', 'glam'], service: 'build' },
-  { id: 'w12', title: 'לילך נוצץ', shape: 'אלמונד', length: 'medium', style: 'לילך עם נצנץ עדין', tags: ['color'], vibe: ['glam', 'colorful'], service: 'gel' },
-  { id: 'w13', title: 'מעבר חלבי', shape: 'אלמונד', length: 'short', style: 'מעבר רך מלבן לשקוף', tags: ['french', 'minimal', 'short'], vibe: ['french', 'clean'], service: 'gel' },
+  { id: 'w11', title: 'מראה על בלרינה', shape: 'בלרינה', length: 'long', style: 'מראה קרה על בנייה', tags: ['chrome', 'long', 'build'], vibe: ['chrome', 'glam'], service: 'build' },
+  { id: 'w12', title: 'לילך נוצץ', shape: 'שקד', length: 'medium', style: 'לילך עם נצנץ עדין', tags: ['color'], vibe: ['glam', 'colorful'], service: 'gel' },
+  { id: 'w13', title: 'מעבר חלבי', shape: 'שקד', length: 'short', style: 'מעבר רך מלבן לשקוף', tags: ['french', 'minimal', 'short'], vibe: ['french', 'clean'], service: 'gel' },
   { id: 'w14', title: 'מרווה עגול', shape: 'עגול', length: 'short', style: 'ירוק מרווה מעושן', tags: ['color', 'minimal', 'short'], vibe: ['clean', 'colorful'], service: 'gel' },
-  { id: 'w15', title: 'קצוות ניוד', shape: 'אלמונד', length: 'long', style: 'קצוות בגוון ניוד על בנייה', tags: ['french', 'long', 'build'], vibe: ['french', 'clean'], service: 'build' },
-  { id: 'w16', title: 'כרום כהה', shape: 'קופין', length: 'long', style: 'כרום מטאלי כהה', tags: ['chrome', 'long', 'build'], vibe: ['chrome', 'glam'], service: 'build' },
-  { id: 'w17', title: "פרנץ' דק", shape: 'מרובע', length: 'medium', style: "קו פרנץ' דק במיוחד", tags: ['french', 'minimal'], vibe: ['french', 'clean'], service: 'gel' },
-  { id: 'w18', title: 'ציור על דובדבן', shape: 'אלמונד', length: 'medium', style: 'ציור לבן על בסיס אדום', tags: ['art', 'color'], vibe: ['art', 'glam'], service: 'art' },
-  { id: 'w19', title: 'מוקה קצר', shape: 'מרובע', length: 'short', style: 'חום רך ואורך יומיומי', tags: ['color', 'short', 'minimal'], vibe: ['clean', 'colorful'], service: 'gel' },
-  { id: 'w20', title: 'קרח נוצץ', shape: 'קופין', length: 'long', style: 'תכלת קרח עם נצנץ', tags: ['color', 'long', 'build'], vibe: ['glam', 'colorful'], service: 'build' },
-  { id: 'w21', title: 'ציור שמשי', shape: 'אלמונד', length: 'medium', style: 'ציור גיאומטרי בגוון חם', tags: ['art', 'color'], vibe: ['art', 'colorful'], service: 'art' },
-  { id: 'w22', title: "פרנץ' רך", shape: 'עגול', length: 'medium', style: "פרנץ' רחב בקצה עגול", tags: ['french', 'minimal'], vibe: ['french', 'clean'], service: 'gel' },
-  { id: 'w23', title: 'כרום פנינה', shape: 'מרובע', length: 'medium', style: 'ברק פנינה עדין', tags: ['chrome'], vibe: ['chrome', 'clean'], service: 'gel' },
-  { id: 'w24', title: 'ציור על לילך', shape: 'קופין', length: 'long', style: 'ציור עדין על בסיס לילך', tags: ['art', 'color', 'long', 'build'], vibe: ['art', 'glam'], service: 'build' },
+  { id: 'w15', title: 'קצוות בגוון עור', shape: 'שקד', length: 'long', style: 'קצוות בגוון עור על בנייה', tags: ['french', 'long', 'build'], vibe: ['french', 'clean'], service: 'build' },
+  { id: 'w16', title: 'מטאלי כהה', shape: 'בלרינה', length: 'long', style: 'מראה מטאלית בגוון כהה', tags: ['chrome', 'long', 'build'], vibe: ['chrome', 'glam'], service: 'build' },
+  { id: 'w17', title: 'קו צרפתי דק', shape: 'מרובע', length: 'medium', style: 'קו צרפתי דק במיוחד', tags: ['french', 'minimal'], vibe: ['french', 'clean'], service: 'gel' },
+  { id: 'w18', title: 'ציור על דובדבן', shape: 'שקד', length: 'medium', style: 'ציור לבן על בסיס אדום', tags: ['art', 'color'], vibe: ['art', 'glam'], service: 'art' },
+  { id: 'w19', title: 'חום רך קצר', shape: 'מרובע', length: 'short', style: 'חום רך ואורך יומיומי', tags: ['color', 'short', 'minimal'], vibe: ['clean', 'colorful'], service: 'gel' },
+  { id: 'w20', title: 'קרח נוצץ', shape: 'בלרינה', length: 'long', style: 'תכלת קרח עם נצנץ', tags: ['color', 'long', 'build'], vibe: ['glam', 'colorful'], service: 'build' },
+  { id: 'w21', title: 'ציור שמשי', shape: 'שקד', length: 'medium', style: 'ציור גיאומטרי בגוון חם', tags: ['art', 'color'], vibe: ['art', 'colorful'], service: 'art' },
+  { id: 'w22', title: 'צרפתי רך', shape: 'עגול', length: 'medium', style: 'קו צרפתי רחב בקצה עגול', tags: ['french', 'minimal'], vibe: ['french', 'clean'], service: 'gel' },
+  { id: 'w23', title: 'ברק פנינה', shape: 'מרובע', length: 'medium', style: 'ברק פנינה עדין', tags: ['chrome'], vibe: ['chrome', 'clean'], service: 'gel' },
+  { id: 'w24', title: 'ציור על לילך', shape: 'בלרינה', length: 'long', style: 'ציור עדין על בסיס לילך', tags: ['art', 'color', 'long', 'build'], vibe: ['art', 'glam'], service: 'build' },
 ].map((w) => ({
   ...w,
   img: `assets/img/works/${w.id}.svg`,
@@ -149,8 +149,8 @@ export const QUIZ = [
     q: 'איזה סגנון את אוהבת?',
     options: [
       { v: 'clean', label: 'נקי וטבעי', note: 'יומיומי, בלי לצעוק' },
-      { v: 'french', label: "פרנץ'", note: 'קלאסי שלא נגמר' },
-      { v: 'chrome', label: 'כרום', note: 'מראה מטאלי' },
+      { v: 'french', label: 'צרפתי', note: 'קלאסי שלא נגמר' },
+      { v: 'chrome', label: 'מראה מטאלית', note: 'ברק של מתכת' },
       { v: 'glam', label: 'נוצץ ובולט', note: 'לאירועים ולערב' },
       { v: 'colorful', label: 'צבעוני', note: 'צבע שמרים את היום' },
       { v: 'art', label: 'ציורים', note: 'פרטים ועיצוב אישי' },
@@ -169,9 +169,9 @@ export const QUIZ = [
     id: 'shape',
     q: 'איזו צורה?',
     options: [
-      { v: 'אלמונד', label: 'אלמונד', note: 'מאריך את האצבע' },
+      { v: 'שקד', label: 'שקד', note: 'מאריך את האצבע' },
       { v: 'מרובע', label: 'מרובע', note: 'ישר ונקי' },
-      { v: 'קופין', label: 'קופין', note: 'מעוצב ובולט' },
+      { v: 'בלרינה', label: 'בלרינה', note: 'קצה ישר, צדדים מחודדים' },
       { v: 'עגול', label: 'עגול', note: 'רך וטבעי' },
     ],
   },
@@ -215,16 +215,16 @@ export const FAQ = [
   { q: 'איך מבטלים תור?', a: 'ביטול עד 24 שעות מראש — בלי עלות, דרך הוואטסאפ. ביטול מאוחר יותר או אי־הגעה מחויבים ב־50% מהטיפול.' },
   { q: 'את עושה גם בנייה?', a: 'בהחלט. בנייה בג’ל בכל הצורות והאורכים, וגם מבנה אנטומי לחיזוק ציפורן טבעית. אם את לא בטוחה מה מתאים לך — נתייעץ יחד בתחילת התור.' },
   { q: 'מה קורה אם נשברה לי ציפורן?', a: 'כתבי לי בוואטסאפ ונמצא חלון לתיקון נקודתי, בדרך כלל תוך יום-יומיים. שבירה בשבוע הראשון אחרי הטיפול — על חשבוני.' },
-  { q: 'איך להגיע לטיפול?', a: 'עדיף להגיע עם ציפורניים נקיות מלק רגיל, בלי קרם ידיים ביום הטיפול, ועם רעיון או תמונה של מה שאהבת. גם אם אין לך רעיון — יש באתר "מצאי את הסט שלך".' },
+  { q: 'איך להגיע לטיפול?', a: 'עדיף להגיע עם ציפורניים נקיות מלק רגיל, בלי קרם ידיים ביום הטיפול, ועם רעיון או תמונה של מה שאהבת. גם אם אין לך רעיון — יש באתר "מצאי את העיצוב שלך".' },
   { q: 'אילו אמצעי תשלום קיימים?', a: 'מזומן, ביט, פייבוקס, אשראי ותשלומים החל מ־300 ₪. חשבונית נשלחת במייל בסיום.' },
 ];
 
 /* ------------------------------------------------------------- אינסטגרם דמו */
 
 export const FEED = [
-  { img: 'assets/img/works/w03.svg', label: 'כרום' },
+  { img: 'assets/img/works/w03.svg', label: 'מראה מטאלית' },
   { img: 'assets/img/site/studio-1.svg', label: 'הסטודיו' },
-  { img: 'assets/img/works/w09.svg', label: "פרנץ'" },
+  { img: 'assets/img/works/w09.svg', label: 'צרפתי' },
   { img: 'assets/img/works/w18.svg', label: 'ציורים' },
   { img: 'assets/img/site/studio-3.svg', label: 'טיפוח' },
   { img: 'assets/img/works/w12.svg', label: 'נצנץ' },

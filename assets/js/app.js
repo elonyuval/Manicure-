@@ -346,7 +346,7 @@ function initServices() {
   });
 }
 
-/* ---------------------------------------------------- שאלון "מצאי את הסט" */
+/* ---------------------------------------------------- שאלון "מצאי את העיצוב" */
 function renderQuiz() {
   const q = QUIZ[state.quiz.i];
   $('#quizBar').style.width = `${((state.quiz.i + 1) / QUIZ.length) * 100}%`;
@@ -388,7 +388,7 @@ function renderQuizResult() {
   box.hidden = false;
   box.innerHTML = `
     <div class="result-head">
-      <h3>נראה שמצאנו את הסט שלך ✨</h3>
+      <h3>נראה שמצאנו את העיצוב שלך ✨</h3>
       <div class="result-tags">
         <span class="result-tag">${esc(labelOf('vibe', a.vibe))}</span>
         <span class="result-tag">${esc(labelOf('length', a.length))}</span>
