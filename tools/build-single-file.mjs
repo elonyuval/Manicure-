@@ -7,7 +7,7 @@
  *   - נוח להדגמות מכירה בלי חיבור לאינטרנט.
  *
  * הרצה:
- *   node tools/build-single-file.mjs            → dist/noa-nail-atelier.html
+ *   node tools/build-single-file.mjs            → dist/noa-studio.html
  *   node tools/build-single-file.mjs --embed    → גרסה לעטיפה חיצונית (בלי תגיות html/head/body)
  */
 
@@ -82,7 +82,7 @@ mkdirSync(join(ROOT, 'dist'), { recursive: true });
 if (EMBED) {
   // גרסה שמיועדת להיטמע בתוך עמוד חיצוני שכבר מספק html/head/body
   // בגרסת ההטמעה מספיק שם המותג – ההסבר נמסר בנפרד ע"י העמוד המארח
-  const title = ((head.match(/<title>([\s\S]*?)<\/title>/) || [])[1] || 'NOA — Nail Atelier').split('|')[0].trim();
+  const title = ((head.match(/<title>([\s\S]*?)<\/title>/) || [])[1] || 'נועה — סטודיו ציפורניים').split('|')[0].trim();
   const out = `<title>${title}</title>
 ${cleanHead.replace(/<title>[\s\S]*?<\/title>/, '')}
 ${bundle}
@@ -91,8 +91,8 @@ ${cleanBody}
 </div>
 <style>body { direction: rtl; }</style>
 `;
-  writeFileSync(join(ROOT, 'dist/noa-nail-atelier.embed.html'), out);
-  console.log('dist/noa-nail-atelier.embed.html', (out.length / 1024 | 0) + 'KB');
+  writeFileSync(join(ROOT, 'dist/noa-studio.embed.html'), out);
+  console.log('dist/noa-studio.embed.html', (out.length / 1024 | 0) + 'KB');
 } else {
   const out = `<!DOCTYPE html>
 <html lang="he" dir="rtl">
@@ -105,6 +105,6 @@ ${cleanBody}
 </body>
 </html>
 `;
-  writeFileSync(join(ROOT, 'dist/noa-nail-atelier.html'), out);
-  console.log('dist/noa-nail-atelier.html', (out.length / 1024 | 0) + 'KB');
+  writeFileSync(join(ROOT, 'dist/noa-studio.html'), out);
+  console.log('dist/noa-studio.html', (out.length / 1024 | 0) + 'KB');
 }

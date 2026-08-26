@@ -1,8 +1,8 @@
 /**
- * NOA — Nail Atelier · לוגיקת האתר
+ * נועה — סטודיו ציפורניים · לוגיקת האתר
  * ------------------------------------------------------------------
- * מודולים: ניווט · גלריה + מודאל · שירותים · שאלון התאמה ·
- *          קביעת תור · FAQ · אנימציות scroll.
+ * מודולים: ניווט · חלון הגלריה · שירותים · שאלון התאמה ·
+ *          קביעת תור · שאלות נפוצות · אנימציות גלילה.
  * ללא ספריות חיצוניות.
  */
 
@@ -11,7 +11,7 @@ import {
   VALUES, STATS, REVIEWS, FAQ, FEED,
 } from './data.js';
 
-/* ------------------------------------------------------------- utilities */
+/* ------------------------------------------------------------- כלי עזר */
 const $ = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => (
@@ -20,9 +20,8 @@ const esc = (s) => String(s).replace(/[&<>"']/g, (c) => (
 
 const state = {
   filter: 'all',
-  shown: 12,
-  modalIndex: -1,
-  design: null,          // העבודה שנבחרה מהגלריה
+  index: 0,             // העבודה המוצגת בחלון הגלריה
+  design: null,         // העבודה שנבחרה לתור
   booking: { service: null, date: null, time: null, name: '', phone: '', notes: '' },
   step: 1,
   quiz: { i: 0, answers: {} },
@@ -37,16 +36,18 @@ function toast(msg) {
   toastTimer = setTimeout(() => { t.hidden = true; }, 3200);
 }
 
+const reduceMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+
 function goTo(hash) {
   const target = $(hash);
   if (!target) return;
   const top = target.getBoundingClientRect().top + window.scrollY - 78;
-  window.scrollTo({ top, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  window.scrollTo({ top, behavior: reduceMotion() ? 'auto' : 'smooth' });
 }
 
-/* ------------------------------------------------------- WhatsApp / חובה */
+/* ------------------------------------------------------- תוכן קבוע */
 function initStaticContent() {
-  const waMsg = `היי ${STUDIO.artist.split(' ')[0]}, הגעתי דרך האתר ואשמח לקבוע תור 💅`;
+  const waMsg = `היי ${STUDIO.short}, הגעתי דרך האתר ואשמח לקבוע תור 💅`;
   $$('[data-wa]').forEach((a) => { a.href = WHATSAPP(waMsg); });
 
   $('#hoursList').innerHTML = STUDIO.hours
@@ -54,6 +55,7 @@ function initStaticContent() {
     .join('');
 
   $('#year').textContent = new Date().getFullYear();
+  $('#worksTotal').textContent = WORKS.length;
 
   $('#valuesList').innerHTML = VALUES
     .map((v) => `<li class="value reveal"><b>${esc(v.t)}</b><span>${esc(v.d)}</span></li>`)
@@ -86,6 +88,7 @@ function initNav() {
 
   const closeMenu = () => {
     burger.setAttribute('aria-expanded', 'false');
+    burger.setAttribute('aria-label', 'פתיחת תפריט');
     mobileNav.hidden = true;
   };
 
@@ -97,12 +100,10 @@ function initNav() {
   });
   $$('#mobileNav a').forEach((a) => a.addEventListener('click', closeMenu));
 
-  let lastY = 0;
   const onScroll = () => {
     const y = window.scrollY;
     header.classList.toggle('is-stuck', y > 12);
     sticky.classList.toggle('is-visible', y > 520);
-    lastY = y;
   };
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
@@ -127,8 +128,7 @@ function initNav() {
     const a = ev.target.closest('a[href^="#"]');
     if (!a) return;
     const hash = a.getAttribute('href');
-    if (hash.length < 2) return;
-    if (!$(hash)) return;
+    if (hash.length < 2 || !$(hash)) return;
     ev.preventDefault();
     closeMenu();
     goTo(hash);
@@ -136,161 +136,174 @@ function initNav() {
   });
 }
 
-/* --------------------------------------------------------------- גלריה */
-function workCard(w) {
-  return `
-    <button class="work" type="button" data-work="${w.id}"
-            aria-label="פתיחת פרטי העבודה ${esc(w.title)}">
-      <img src="${w.img}" width="900" height="1200" loading="lazy" decoding="async" alt="${esc(w.alt)}">
-      <span class="work-tag">${esc(w.shape)} · ${esc(w.lengthHe)}</span>
-      <span class="work-overlay">
-        <span class="work-title">${esc(w.title)}</span>
-        <span class="work-meta">${esc(w.style)}</span>
-      </span>
-    </button>`;
-}
+/* ============================================================== גלריה */
+/* הגלריה נפתחת כחלון מלא: סינון, דפדוף בחיצים/החלקה, ובחירת עיצוב לתור. */
 
-function filteredWorks() {
-  return state.filter === 'all' ? WORKS : WORKS.filter((w) => w.tags.includes(state.filter));
-}
+const filtered = () =>
+  state.filter === 'all' ? WORKS : WORKS.filter((w) => w.tags.includes(state.filter));
 
-function renderWorks() {
-  const grid = $('#worksGrid');
-  const list = filteredWorks();
-  const visible = list.slice(0, state.shown);
-
-  grid.innerHTML = visible.length
-    ? visible.map(workCard).join('')
-    : `<p class="gallery-empty">לא נמצאו עבודות בסגנון הזה — אבל אפשר לבקש כל עיצוב בהתאמה אישית.</p>`;
-
-  // אנימציית כניסה מדורגת
-  $$('.work', grid).forEach((el, i) => { el.style.animationDelay = `${Math.min(i, 8) * 45}ms`; });
-
-  const label = FILTERS.find((f) => f.id === state.filter)?.label || '';
-  $('#filterCount').textContent = state.filter === 'all'
-    ? `${list.length} עבודות בגלריה`
-    : `${list.length} עבודות בסגנון ${label}`;
-
-  $('#loadMore').hidden = list.length <= state.shown;
-  $('#loadMore').textContent = `להצגת עוד ${list.length - state.shown} עבודות`;
-}
-
-function initGallery() {
-  $('#filters').innerHTML = FILTERS.map((f) => `
-    <button class="chip" type="button" data-filter="${f.id}" aria-pressed="${f.id === 'all'}">${esc(f.label)}</button>`
-  ).join('');
-
-  $('#filters').addEventListener('click', (e) => {
-    const btn = e.target.closest('[data-filter]');
-    if (!btn) return;
-    state.filter = btn.dataset.filter;
-    state.shown = 12;
-    $$('#filters .chip').forEach((c) => c.setAttribute('aria-pressed', String(c === btn)));
-    renderWorks();
-  });
-
-  $('#loadMore').addEventListener('click', () => {
-    state.shown = filteredWorks().length;
-    renderWorks();
-  });
-
-  $('#worksGrid').addEventListener('click', (e) => {
-    const btn = e.target.closest('[data-work]');
-    if (!btn) return;
-    openModal(btn.dataset.work);
-  });
-
-  renderWorks();
-}
-
-/* ---------------------------------------------------------------- מודאל */
 let lastFocused = null;
 
-function openModal(id) {
-  const list = filteredWorks();
-  const idx = list.findIndex((w) => w.id === id);
-  state.modalIndex = idx >= 0 ? idx : WORKS.findIndex((w) => w.id === id);
+function openViewer(startId) {
+  const list = filtered();
+  const idx = startId ? list.findIndex((w) => w.id === startId) : 0;
+  state.index = idx >= 0 ? idx : 0;
+
   lastFocused = document.activeElement;
-  renderModal();
-  const modal = $('#workModal');
-  modal.hidden = false;
+  renderViewer();
+  const viewer = $('#galleryViewer');
+  viewer.hidden = false;
   document.body.classList.add('no-scroll');
-  $('.modal-close', modal).focus();
+  $('#viewerNext').focus();
 }
 
-function closeModal() {
-  $('#workModal').hidden = true;
+function closeViewer() {
+  $('#galleryViewer').hidden = true;
   document.body.classList.remove('no-scroll');
   if (lastFocused) lastFocused.focus();
 }
 
-function renderModal() {
-  const list = filteredWorks().length ? filteredWorks() : WORKS;
-  const w = list[state.modalIndex];
-  if (!w) return;
-  const svc = SERVICES.find((s) => s.id === w.service);
+function move(step) {
+  const list = filtered();
+  if (!list.length) return;
+  state.index = (state.index + step + list.length) % list.length;
+  renderViewer();
+}
 
-  $('#modalContent').innerHTML = `
-    <div class="modal-img">
-      <img src="${w.img}" width="900" height="1200" alt="${esc(w.alt)}">
-    </div>
-    <div class="modal-body">
-      <p class="eyebrow">${esc(FILTERS.find((f) => f.id === w.tags[0])?.label || 'Design')}</p>
-      <h3 id="modalTitle">${esc(w.title)}</h3>
-      <p class="muted">${esc(w.style)}</p>
-      <dl class="modal-specs">
-        <div class="spec"><dt>סוג</dt><dd>${esc(svc ? svc.name : 'עיצוב אישי')}</dd></div>
-        <div class="spec"><dt>צורה</dt><dd>${esc(w.shape)}</dd></div>
-        <div class="spec"><dt>אורך</dt><dd>${esc(w.lengthHe)}</dd></div>
-        <div class="spec"><dt>סגנון</dt><dd>${esc(w.tags.map((t) => FILTERS.find((f) => f.id === t)?.label).filter(Boolean)[0] || '—')}</dd></div>
-      </dl>
-      <div class="modal-actions">
-        <button class="btn btn-dark" type="button" data-want="${w.id}">אני רוצה כזה 💅</button>
-        <a class="btn btn-outline" data-wa href="#" target="_blank" rel="noopener">שאלה בוואטסאפ</a>
-      </div>
-      <p class="modal-service">${svc ? `הטיפול המתאים: ${esc(svc.name)} · ${svc.price} ₪${svc.priceNote ? ' ' + esc(svc.priceNote) : ''} · ${svc.duration} דק’` : ''}</p>
-    </div>`;
-
-  $$('[data-wa]', $('#modalContent')).forEach((a) => {
-    a.href = WHATSAPP(`היי, ראיתי באתר את העיצוב "${w.title}" ויש לי שאלה 🙂`);
+/** טעינה מוקדמת של השכנים – כדי שהדפדוף ירגיש מיידי */
+function preloadNeighbours(list) {
+  [-1, 1].forEach((d) => {
+    const w = list[(state.index + d + list.length) % list.length];
+    if (w) { const i = new Image(); i.src = w.img; }
   });
 }
 
-function initModal() {
-  const modal = $('#workModal');
+function renderViewer() {
+  const list = filtered();
+  const w = list[state.index];
 
-  modal.addEventListener('click', (e) => {
-    if (e.target.closest('[data-close-modal]')) closeModal();
+  $('#viewerCount').textContent = list.length ? `${state.index + 1} / ${list.length}` : '';
+  $('#viewerPrev').disabled = list.length < 2;
+  $('#viewerNext').disabled = list.length < 2;
+
+  if (!w) {
+    $('#viewerFigure').innerHTML = '';
+    $('#viewerInfo').innerHTML = `<p class="viewer-empty">אין עבודות בסגנון הזה כרגע — אבל אפשר לבקש כל עיצוב בהתאמה אישית.</p>`;
+    $('#viewerThumbs').innerHTML = '';
+    return;
+  }
+
+  const svc = SERVICES.find((s) => s.id === w.service);
+
+  $('#viewerFigure').innerHTML = `
+    <img id="viewerImg" src="${w.img}" alt="${esc(w.alt)}" width="900" height="1200" decoding="async">`;
+  $('#viewerFigure').classList.remove('is-swapping');
+  // הפעלה מחדש של אנימציית ההחלפה
+  void $('#viewerFigure').offsetWidth;
+  $('#viewerFigure').classList.add('is-swapping');
+
+  $('#viewerInfo').innerHTML = `
+    <div class="viewer-text">
+      <h3>${esc(w.title)}</h3>
+      <p>${esc(w.style)}</p>
+      <ul class="viewer-specs">
+        <li><span>צורה</span><b>${esc(w.shape)}</b></li>
+        <li><span>אורך</span><b>${esc(w.lengthHe)}</b></li>
+        <li><span>טיפול</span><b>${esc(svc ? svc.name : 'עיצוב אישי')}</b></li>
+        ${svc ? `<li><span>מחיר</span><b>${svc.price} ₪${svc.priceNote ? ' ' + esc(svc.priceNote) : ''}</b></li>` : ''}
+      </ul>
+    </div>
+    <div class="viewer-actions">
+      <button class="btn btn-dark" type="button" data-want="${w.id}">אני רוצה כזה 💅</button>
+      <a class="btn btn-outline" data-viewer-wa href="#" target="_blank" rel="noopener">שאלה בוואטסאפ</a>
+    </div>`;
+
+  $('[data-viewer-wa]').href = WHATSAPP(`היי, ראיתי באתר את העיצוב "${w.title}" ויש לי שאלה 🙂`);
+
+  $('#viewerThumbs').innerHTML = list.map((item, i) => `
+    <button class="viewer-thumb ${i === state.index ? 'is-current' : ''}" type="button"
+            role="tab" aria-selected="${i === state.index}" data-go="${i}" aria-label="${esc(item.title)}">
+      <img src="${item.img}" width="900" height="1200" loading="lazy" decoding="async" alt="">
+    </button>`).join('');
+
+  const current = $('.viewer-thumb.is-current');
+  if (current) current.scrollIntoView({ block: 'nearest', inline: 'center', behavior: reduceMotion() ? 'auto' : 'smooth' });
+
+  preloadNeighbours(list);
+}
+
+function initGallery() {
+  // כפתורי הפתיחה בעמוד
+  document.addEventListener('click', (e) => {
+    const opener = e.target.closest('[data-open-gallery]');
+    if (opener) { openViewer(opener.dataset.openGallery || null); }
+  });
+
+  // פילטרים
+  $('#viewerFilters').innerHTML = FILTERS.map((f) => `
+    <button class="chip" type="button" data-filter="${f.id}" aria-pressed="${f.id === 'all'}">${esc(f.label)}</button>`
+  ).join('');
+
+  $('#viewerFilters').addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-filter]');
+    if (!btn) return;
+    state.filter = btn.dataset.filter;
+    state.index = 0;
+    $$('#viewerFilters .chip').forEach((c) => c.setAttribute('aria-pressed', String(c === btn)));
+    renderViewer();
+  });
+
+  // דפדוף
+  $('#viewerNext').addEventListener('click', () => move(1));
+  $('#viewerPrev').addEventListener('click', () => move(-1));
+
+  $('#viewerThumbs').addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-go]');
+    if (!btn) return;
+    state.index = Number(btn.dataset.go);
+    renderViewer();
+  });
+
+  const viewer = $('#galleryViewer');
+
+  viewer.addEventListener('click', (e) => {
+    if (e.target.closest('[data-close-viewer]')) closeViewer();
     const want = e.target.closest('[data-want]');
     if (want) chooseDesign(want.dataset.want);
   });
 
-  $('#modalNext').addEventListener('click', () => {
-    const list = filteredWorks().length ? filteredWorks() : WORKS;
-    state.modalIndex = (state.modalIndex + 1) % list.length;
-    renderModal();
-  });
-  $('#modalPrev').addEventListener('click', () => {
-    const list = filteredWorks().length ? filteredWorks() : WORKS;
-    state.modalIndex = (state.modalIndex - 1 + list.length) % list.length;
-    renderModal();
-  });
-
+  // מקלדת
   document.addEventListener('keydown', (e) => {
-    if (modal.hidden) return;
-    if (e.key === 'Escape') closeModal();
-    if (e.key === 'ArrowLeft') $('#modalNext').click();
-    if (e.key === 'ArrowRight') $('#modalPrev').click();
+    if (viewer.hidden) return;
+    if (e.key === 'Escape') closeViewer();
+    if (e.key === 'ArrowLeft') move(1);     // בעברית: שמאלה = הבא
+    if (e.key === 'ArrowRight') move(-1);
   });
 
-  // "אני רוצה כזה" גם מתוצאות השאלון
+  // החלקה במובייל
+  const stage = $('.viewer-stage');
+  let startX = 0, startY = 0, tracking = false;
+  stage.addEventListener('touchstart', (e) => {
+    tracking = true;
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+  }, { passive: true });
+  stage.addEventListener('touchend', (e) => {
+    if (!tracking) return;
+    tracking = false;
+    const dx = e.changedTouches[0].clientX - startX;
+    const dy = e.changedTouches[0].clientY - startY;
+    if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) move(dx < 0 ? 1 : -1);
+  }, { passive: true });
+
+  // בחירת עיצוב גם מתוצאות השאלון
   document.addEventListener('click', (e) => {
     const btn = e.target.closest('[data-want]');
-    if (btn && !btn.closest('#workModal')) chooseDesign(btn.dataset.want);
+    if (btn && !btn.closest('#galleryViewer')) chooseDesign(btn.dataset.want);
   });
 }
 
-/** בחירת עיצוב מהגלריה → מעבר ישיר לקביעת תור עם העיצוב מצורף */
+/** בחירת עיצוב → מעבר ישיר לקביעת תור עם העיצוב מצורף */
 function chooseDesign(id) {
   const w = WORKS.find((x) => x.id === id);
   if (!w) return;
@@ -299,22 +312,19 @@ function chooseDesign(id) {
   state.booking.date = null;
   state.booking.time = null;
   state.step = state.booking.service ? 2 : 1;
-  closeModal();
+  if (!$('#galleryViewer').hidden) closeViewer();
   renderPickedDesign();
   renderBooking();
   goTo('#booking');
-  toast(`העיצוב "${w.title}" צורף לתור שלך ✨`);
+  toast(`העיצוב “${w.title}” צורף לתור שלך ✨`);
 }
 
-/* -------------------------------------------------------------- שירותים */
+/* -------------------------------------------------------------- טיפולים */
 function initServices() {
   $('#servicesGrid').innerHTML = SERVICES.map((s) => `
     <article class="service reveal">
       ${s.popular ? '<span class="service-flag">הכי מבוקש</span>' : ''}
-      <div class="service-top">
-        <h3 class="service-name">${esc(s.name)}</h3>
-        <span class="service-en">${esc(s.en)}</span>
-      </div>
+      <h3 class="service-name">${esc(s.name)}</h3>
       <p class="service-desc">${esc(s.desc)}</p>
       <div class="service-meta">
         <span class="service-price">${s.price} ₪</span>
@@ -339,7 +349,7 @@ function initServices() {
 /* ---------------------------------------------------- שאלון "מצאי את הסט" */
 function renderQuiz() {
   const q = QUIZ[state.quiz.i];
-  $('#quizBar').style.width = `${((state.quiz.i) / QUIZ.length) * 100 + 33}%`;
+  $('#quizBar').style.width = `${((state.quiz.i + 1) / QUIZ.length) * 100}%`;
   $('#quizStep').textContent = `${state.quiz.i + 1} / ${QUIZ.length}`;
   $('#quizBack').hidden = state.quiz.i === 0;
   $('#quizBody').innerHTML = `
@@ -352,7 +362,7 @@ function renderQuiz() {
     </div>`;
 }
 
-/** מנוע ההתאמה: ניקוד לפי וייב (משקל 3), אורך (2) וצורה (2) */
+/** מנוע ההתאמה: ניקוד לפי סגנון (משקל 3), אורך (2) וצורה (2) */
 function matchWorks({ vibe, length, shape }) {
   return WORKS
     .map((w) => {
@@ -398,7 +408,7 @@ function renderQuizResult() {
     </div>
     <div class="result-actions">
       <button class="btn btn-outline" type="button" id="quizAgain">לענות שוב</button>
-      <a class="btn btn-outline" href="#gallery">לגלריה המלאה</a>
+      <button class="btn btn-outline" type="button" data-open-gallery>לגלריה המלאה</button>
     </div>`;
 
   $('#quizAgain').addEventListener('click', () => {
@@ -436,7 +446,8 @@ function initQuiz() {
 
 /* ---------------------------------------------------------- קביעת תור */
 const DAY_HE = ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי', 'שישי', 'שבת'];
-const MON_HE = ['ינו', 'פבר', 'מרץ', 'אפר', 'מאי', 'יוני', 'יולי', 'אוג', 'ספט', 'אוק', 'נוב', 'דצמ'];
+const MON_HE = ['ינואר', 'פברואר', 'מרץ', 'אפריל', 'מאי', 'יוני', 'יולי', 'אוגוסט', 'ספטמבר', 'אוקטובר', 'נובמבר', 'דצמבר'];
+const MON_SHORT = ['ינו', 'פבר', 'מרץ', 'אפר', 'מאי', 'יוני', 'יולי', 'אוג', 'ספט', 'אוק', 'נוב', 'דצמ'];
 
 function nextDates(count = 14) {
   const out = [];
@@ -450,7 +461,7 @@ function nextDates(count = 14) {
   return out;
 }
 
-/** תפוסה דמו יציבה: אותו תאריך תמיד מציג את אותן שעות */
+/** תפוסה לדוגמה יציבה: אותו תאריך תמיד מציג את אותן שעות */
 function slotsFor(date) {
   const friday = date.getDay() === 5;
   const base = friday
@@ -460,9 +471,7 @@ function slotsFor(date) {
   return base.map((time, i) => ({ time, free: (seed + i * 5) % 7 !== 0 && (seed + i * 3) % 5 !== 0 }));
 }
 
-function fmtDate(d) {
-  return `יום ${DAY_HE[d.getDay()]}, ${d.getDate()} ב${MON_HE[d.getMonth()]}`;
-}
+const fmtDate = (d) => `יום ${DAY_HE[d.getDay()]}, ${d.getDate()} ב${MON_HE[d.getMonth()]}`;
 
 function renderPickedDesign() {
   const box = $('#pickedDesign');
@@ -474,7 +483,7 @@ function renderPickedDesign() {
     <span class="pd-text">
       <span class="pd-label">העיצוב שבחרת</span>
       <strong>${esc(w.title)}</strong>
-      <span class="muted" style="font-size:.8rem">${esc(w.shape)} · ${esc(w.lengthHe)}</span>
+      <span class="pd-meta">${esc(w.shape)} · ${esc(w.lengthHe)}</span>
     </span>
     <button class="link-btn" type="button" id="clearDesign">הסרה</button>`;
   $('#clearDesign').addEventListener('click', () => {
@@ -505,7 +514,7 @@ function renderBooking() {
         <div class="opt-list">
           ${SERVICES.map((s) => `
             <button class="opt ${b.service?.id === s.id ? 'is-selected' : ''}" type="button" data-pick-service="${s.id}">
-              <span class="opt-main"><b>${esc(s.name)}</b><small>${s.duration} דקות · ${esc(s.en)}</small></span>
+              <span class="opt-main"><b>${esc(s.name)}</b><small>${s.duration} דקות</small></span>
               <span class="opt-side">${s.price} ₪<small>${s.priceNote ? esc(s.priceNote) : 'מחיר טיפול'}</small></span>
             </button>`).join('')}
         </div>
@@ -525,7 +534,7 @@ function renderBooking() {
             return `<button class="date ${b.date === iso ? 'is-selected' : ''}" type="button" data-date="${iso}" ${open ? '' : 'disabled'}>
               <span class="d-day">${DAY_HE[d.getDay()]}</span>
               <span class="d-num">${d.getDate()}</span>
-              <span class="d-mon">${MON_HE[d.getMonth()]}</span>
+              <span class="d-mon">${MON_SHORT[d.getMonth()]}</span>
             </button>`;
           }).join('')}
         </div>
@@ -599,7 +608,7 @@ function renderBooking() {
   if (state.step === 5) {
     const d = new Date(b.date + 'T00:00:00');
     const waText = [
-      `היי ${STUDIO.artist.split(' ')[0]}! קבעתי תור דרך האתר:`,
+      `היי ${STUDIO.short}! קבעתי תור דרך האתר:`,
       `טיפול: ${b.service.name}`,
       `מועד: ${fmtDate(d)} בשעה ${b.time}`,
       state.design ? `העיצוב שבחרתי: ${state.design.title} (${state.design.shape}, ${state.design.lengthHe})` : '',
@@ -613,7 +622,7 @@ function renderBooking() {
         <h3>התור שלך כמעט מוכן ✨</h3>
         <p>נשאר רק לאשר. מיד אחרי האישור תקבלי הודעת וואטסאפ עם כל הפרטים ותזכורת יום לפני.</p>
 
-        <dl class="summary" style="width:min(30rem,100%);text-align:start">
+        <dl class="summary">
           <div><dt>טיפול</dt><dd>${esc(b.service.name)}</dd></div>
           <div><dt>מועד</dt><dd>${esc(fmtDate(d))} · ${esc(b.time)}</dd></div>
           <div><dt>משך</dt><dd>כ־${b.service.duration} דקות</dd></div>
@@ -623,7 +632,7 @@ function renderBooking() {
         </dl>
 
         ${state.design ? `
-        <div class="picked-design" style="width:min(30rem,100%)">
+        <div class="picked-design confirm-design">
           <img src="${state.design.img}" alt="${esc(state.design.alt)}">
           <span class="pd-text">
             <span class="pd-label">מצורף לתור</span>
@@ -706,7 +715,7 @@ function initBooking() {
   renderBooking();
 }
 
-/* ------------------------------------------------------------------ FAQ */
+/* ------------------------------------------------------- שאלות נפוצות */
 function initFaq() {
   $('#faqList').innerHTML = FAQ.map((f, i) => `
     <div class="faq-item">
@@ -732,7 +741,7 @@ function initFaq() {
   });
 }
 
-/* ------------------------------------------------------- אנימציות scroll */
+/* ------------------------------------------------------- אנימציות גלילה */
 function initReveal() {
   const obs = new IntersectionObserver((entries) => {
     entries.forEach((e) => {
@@ -742,15 +751,13 @@ function initReveal() {
 
   const watch = () => $$('.reveal:not(.is-in)').forEach((el) => obs.observe(el));
   watch();
-  // אלמנטים שנוצרים דינמית
   new MutationObserver(watch).observe(document.body, { childList: true, subtree: true });
 }
 
-/* ------------------------------------------------------------------ init */
+/* ------------------------------------------------------------------ הפעלה */
 initStaticContent();
 initNav();
 initGallery();
-initModal();
 initServices();
 initQuiz();
 initBooking();

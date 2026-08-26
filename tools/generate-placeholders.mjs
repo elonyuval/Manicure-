@@ -296,11 +296,11 @@ writeFileSync(
 
 // אווירת סטודיו – לפיד האינסטגרם
 const AMBIENCE = [
-  ['studio-1', '#F4EDE6', '#E0CDBD', 'STUDIO'],
-  ['studio-2', '#EFE7E2', '#D6C6BC', 'DETAILS'],
-  ['studio-3', '#F7F2EA', '#E8D8C3', 'CARE'],
+  ['studio-1', '#F4EDE6', '#E0CDBD'],
+  ['studio-2', '#EFE7E2', '#D6C6BC'],
+  ['studio-3', '#F7F2EA', '#E8D8C3'],
 ];
-for (const [name, c1, c2, label] of AMBIENCE) {
+for (const [name, c1, c2] of AMBIENCE) {
   writeFileSync(
     join(SITE_DIR, `${name}.svg`),
     `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800" role="img">
@@ -311,7 +311,8 @@ for (const [name, c1, c2, label] of AMBIENCE) {
   <rect width="800" height="800" fill="url(#g)"/>
   <circle cx="250" cy="230" r="190" fill="#ffffff" opacity="0.55" filter="url(#b)"/>
   <circle cx="600" cy="600" r="150" fill="#C9A48C" opacity="0.35" filter="url(#b)"/>
-  <text x="400" y="415" text-anchor="middle" font-family="Georgia, serif" font-size="58" letter-spacing="14" fill="#3A2B25" opacity="0.5">${label}</text>
+  <circle cx="400" cy="400" r="118" fill="none" stroke="#3A2B25" stroke-width="1.5" opacity="0.22"/>
+  <circle cx="400" cy="400" r="150" fill="none" stroke="#3A2B25" stroke-width="1" opacity="0.12"/>
 </svg>`
   );
 }
@@ -322,9 +323,10 @@ writeFileSync(
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img">
   <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FAF6F1"/><stop offset="1" stop-color="#E5D2C2"/></linearGradient></defs>
   <rect width="1200" height="630" fill="url(#g)"/>
-  <text x="600" y="300" text-anchor="middle" font-family="Georgia, serif" font-size="82" letter-spacing="10" fill="#3A2B25">NOA — NAIL ATELIER</text>
-  <text x="600" y="372" text-anchor="middle" font-family="Georgia, serif" font-size="34" letter-spacing="6" fill="#8C6552">Your nails, your signature.</text>
-  <text x="600" y="452" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#5A4136">מניקור מדויק ועיצובים בהתאמה אישית · תל אביב</text>
+  <circle cx="600" cy="315" r="215" fill="none" stroke="#3A2B25" stroke-width="1.4" opacity="0.16"/>
+  <text x="600" y="290" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="72" fill="#3A2B25">נועה · סטודיו ציפורניים</text>
+  <text x="600" y="366" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="36" fill="#8C6552">הציפורניים שלך, החתימה שלך</text>
+  <text x="600" y="446" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="27" fill="#5A4136">מניקור · לק ג'ל · בנייה · ציורים — תל אביב</text>
 </svg>`
 );
 
