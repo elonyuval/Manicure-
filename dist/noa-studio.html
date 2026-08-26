@@ -586,6 +586,41 @@ p.ltr { text-align: right; }
 .booking-foot { display: flex; align-items: center; gap: 1rem; margin-top: 1.4rem; }
 .booking-hint { margin: 0; font-size: var(--fs-xs); color: var(--espresso-60); }
 
+/* בחירת העיצוב לתור */
+.design-choice {
+  margin-bottom: 1.5rem; padding: 1rem 1.1rem 1.1rem;
+  background: var(--ivory); border: 1px solid var(--nude-soft); border-radius: var(--r-md);
+}
+.dc-head { display: flex; flex-wrap: wrap; align-items: center; gap: .7rem; margin-bottom: .9rem; }
+.dc-label { font-size: var(--fs-xs); font-weight: 600; letter-spacing: .06em; color: var(--nude); }
+.dc-tabs {
+  display: flex; gap: .2rem; margin-inline-start: auto;
+  padding: .2rem; background: var(--ivory-deep); border-radius: 999px;
+}
+.dc-tab {
+  padding: .4rem 1rem; border: 0; border-radius: 999px; background: none;
+  font-size: var(--fs-xs); font-weight: 600; color: var(--espresso-60);
+  transition: background-color .3s var(--ease), color .3s var(--ease);
+}
+.dc-tab.is-on { background: var(--cream); color: var(--espresso); box-shadow: var(--shadow-sm); }
+
+.dc-panel { display: grid; gap: .8rem; animation: stepIn .35s var(--ease-out); }
+.dc-field { display: grid; gap: .35rem; font-size: var(--fs-xs); color: var(--espresso-60); }
+.dc-field textarea {
+  width: 100%; padding: .8rem 1rem; font: inherit; font-size: var(--fs-sm); color: var(--espresso);
+  background: var(--white); border: 1px solid var(--line); border-radius: var(--r-md); resize: vertical;
+  transition: border-color .3s var(--ease), box-shadow .3s var(--ease);
+}
+.dc-field textarea:focus { outline: none; border-color: var(--nude); box-shadow: 0 0 0 3px rgba(201,164,140,.16); }
+
+.dc-upload { display: flex; flex-wrap: wrap; align-items: center; gap: .7rem; }
+.dc-hint { font-size: var(--fs-xs); color: var(--espresso-60); }
+.dc-thumb { display: flex; align-items: center; gap: .6rem; }
+.dc-thumb img { width: 44px; height: 56px; object-fit: cover; border-radius: var(--r-sm); border: 1px solid var(--line); }
+.dc-empty { display: flex; flex-wrap: wrap; align-items: center; gap: .8rem; }
+.dc-empty p { margin: 0; font-size: var(--fs-sm); color: var(--espresso-60); }
+.design-choice .picked-design { margin: 0; background: var(--cream); }
+
 /* --- למה אצלי --- */
 .values { display: grid; gap: .8rem; }
 .value {
@@ -1146,7 +1181,10 @@ const esc = (s) => String(s).replace(/[&<>"']/g, (c) => (
 const state = {
   filter: 'all',
   index: 0,             // העבודה המוצגת בחלון הגלריה
-  design: null,         // העבודה שנבחרה לתור
+  design: null,         // העבודה שנבחרה מהגלריה
+  designMode: 'custom', // 'custom' = עיצוב אישי (ברירת מחדל) | 'gallery' = מתוך הגלריה
+  designNote: '',       // התיאור שהלקוחה כותבת במילים שלה
+  designPhoto: null,    // תמונת השראה שצירפה { name, src }
   booking: { service: null, date: null, time: null, name: '', phone: '', notes: '' },
   step: 1,
   quiz: { i: 0, answers: {} },
@@ -1433,12 +1471,13 @@ function chooseDesign(id) {
   const w = WORKS.find((x) => x.id === id);
   if (!w) return;
   state.design = w;
+  state.designMode = 'gallery';
   state.booking.service = SERVICES.find((s) => s.id === w.service) || null;
   state.booking.date = null;
   state.booking.time = null;
   state.step = state.booking.service ? 2 : 1;
   if (!$('#galleryViewer').hidden) closeViewer();
-  renderPickedDesign();
+  renderDesignChoice();
   renderBooking();
   goTo('#booking');
   toast(`העיצוב “${w.title}” צורף לתור שלך ✨`);
@@ -1598,23 +1637,103 @@ function slotsFor(date) {
 
 const fmtDate = (d) => `יום ${DAY_HE[d.getDay()]}, ${d.getDate()} ב${MON_HE[d.getMonth()]}`;
 
-function renderPickedDesign() {
-  const box = $('#pickedDesign');
-  if (!state.design) { box.hidden = true; box.innerHTML = ''; return; }
-  const w = state.design;
-  box.hidden = false;
+/* -------------------------------------------------- בחירת העיצוב לתור */
+/* ברירת המחדל היא "עיצוב אישי": הלקוחה מתארת במילים שלה ויכולה לצרף תמונה.
+   מי שבחרה עבודה מהגלריה — עוברת אוטומטית למצב "מהגלריה" ותמיד יכולה להחליף. */
+
+function designSummaryText() {
+  if (state.designMode === 'gallery' && state.design) {
+    const w = state.design;
+    return `${w.title} (${w.shape}, ${w.lengthHe})`;
+  }
+  const parts = [];
+  if (state.designNote) parts.push(state.designNote);
+  if (state.designPhoto) parts.push('(מצרפת תמונת השראה בצ’אט)');
+  return parts.length ? parts.join(' ') : 'נחליט יחד בטיפול';
+}
+
+function renderDesignChoice() {
+  const box = $('#designChoice');
+  const custom = state.designMode !== 'gallery';
+
   box.innerHTML = `
-    <img src="${w.img}" width="900" height="1200" alt="${esc(w.alt)}">
-    <span class="pd-text">
-      <span class="pd-label">העיצוב שבחרת</span>
-      <strong>${esc(w.title)}</strong>
-      <span class="pd-meta">${esc(w.shape)} · ${esc(w.lengthHe)}</span>
-    </span>
-    <button class="link-btn" type="button" id="clearDesign">הסרה</button>`;
-  $('#clearDesign').addEventListener('click', () => {
-    state.design = null;
-    renderPickedDesign();
-  });
+    <div class="dc-head">
+      <span class="dc-label">העיצוב שלך</span>
+      <div class="dc-tabs" role="tablist" aria-label="בחירת סוג העיצוב">
+        <button class="dc-tab ${custom ? 'is-on' : ''}" type="button" role="tab"
+                aria-selected="${custom}" data-mode="custom">עיצוב אישי</button>
+        <button class="dc-tab ${!custom ? 'is-on' : ''}" type="button" role="tab"
+                aria-selected="${!custom}" data-mode="gallery">מתוך הגלריה</button>
+      </div>
+    </div>
+
+    ${custom ? `
+      <div class="dc-panel">
+        <label class="dc-field" for="designNote">
+          ספרי לי מה בא לך — במילים שלך
+          <textarea id="designNote" rows="2"
+            placeholder="למשל: משהו נקי בגוון ניוד, קצר, בלי ציורים. או פשוט — נחליט יחד בטיפול 🙂">${esc(state.designNote)}</textarea>
+        </label>
+
+        <div class="dc-upload">
+          <input type="file" id="designPhoto" accept="image/*" hidden>
+          <button class="btn btn-outline btn-sm" type="button" id="designPhotoBtn">
+            ${state.designPhoto ? 'החלפת התמונה' : 'צירוף תמונת השראה'}
+          </button>
+          ${state.designPhoto ? `
+            <span class="dc-thumb">
+              <img src="${state.designPhoto.src}" alt="תמונת ההשראה שצירפת">
+              <button class="link-btn" type="button" id="designPhotoClear">הסרה</button>
+            </span>` : '<span class="dc-hint">צילום מסך מאינסטגרם? אפשר לצרף כאן</span>'}
+        </div>
+      </div>` : `
+      <div class="dc-panel">
+        ${state.design ? `
+          <div class="picked-design">
+            <img src="${state.design.img}" width="900" height="1200" alt="${esc(state.design.alt)}">
+            <span class="pd-text">
+              <span class="pd-label">בחרת מהגלריה</span>
+              <strong>${esc(state.design.title)}</strong>
+              <span class="pd-meta">${esc(state.design.shape)} · ${esc(state.design.lengthHe)}</span>
+            </span>
+            <button class="link-btn" type="button" data-open-gallery>החלפה</button>
+          </div>` : `
+          <div class="dc-empty">
+            <p>עוד לא בחרת עבודה מהגלריה.</p>
+            <button class="btn btn-outline btn-sm" type="button" data-open-gallery>פתיחת הגלריה</button>
+          </div>`}
+      </div>`}
+  `;
+
+  const note = $('#designNote');
+  if (note) {
+    note.addEventListener('input', () => { state.designNote = note.value; });
+  }
+
+  const fileInput = $('#designPhoto');
+  if (fileInput) {
+    $('#designPhotoBtn').addEventListener('click', () => fileInput.click());
+    fileInput.addEventListener('change', () => {
+      const file = fileInput.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        state.designPhoto = { name: file.name, src: reader.result };
+        renderDesignChoice();
+      };
+      reader.readAsDataURL(file);
+    });
+    const clear = $('#designPhotoClear');
+    if (clear) clear.addEventListener('click', () => {
+      state.designPhoto = null;
+      renderDesignChoice();
+    });
+  }
+
+  $$('.dc-tab', box).forEach((tab) => tab.addEventListener('click', () => {
+    state.designMode = tab.dataset.mode;
+    renderDesignChoice();
+  }));
 }
 
 function setSteps() {
@@ -1736,7 +1855,7 @@ function renderBooking() {
       `היי ${STUDIO.short}! קבעתי תור דרך האתר:`,
       `טיפול: ${b.service.name}`,
       `מועד: ${fmtDate(d)} בשעה ${b.time}`,
-      state.design ? `העיצוב שבחרתי: ${state.design.title} (${state.design.shape}, ${state.design.lengthHe})` : '',
+      `העיצוב שאני רוצה: ${designSummaryText()}`,
       `שם: ${b.name} · טלפון: ${b.phone}`,
       b.notes ? `הערה: ${b.notes}` : '',
     ].filter(Boolean).join('\n');
@@ -1751,17 +1870,25 @@ function renderBooking() {
           <div><dt>טיפול</dt><dd>${esc(b.service.name)}</dd></div>
           <div><dt>מועד</dt><dd>${esc(fmtDate(d))} · ${esc(b.time)}</dd></div>
           <div><dt>משך</dt><dd>כ־${b.service.duration} דקות</dd></div>
-          ${state.design ? `<div><dt>העיצוב שבחרת</dt><dd>${esc(state.design.title)}</dd></div>` : ''}
+          <div><dt>העיצוב</dt><dd>${esc(designSummaryText())}</dd></div>
           <div><dt>על שם</dt><dd>${esc(b.name)} · ${esc(b.phone)}</dd></div>
           <div class="total"><dt>לתשלום בסטודיו</dt><dd>${b.service.price} ₪${b.service.priceNote ? ' ' + esc(b.service.priceNote) : ''}</dd></div>
         </dl>
 
-        ${state.design ? `
+        ${state.designMode === 'gallery' && state.design ? `
         <div class="picked-design confirm-design">
           <img src="${state.design.img}" alt="${esc(state.design.alt)}">
           <span class="pd-text">
             <span class="pd-label">מצורף לתור</span>
             <strong>${esc(state.design.title)}</strong>
+          </span>
+        </div>` : ''}
+        ${state.designMode !== 'gallery' && state.designPhoto ? `
+        <div class="picked-design confirm-design">
+          <img src="${state.designPhoto.src}" alt="תמונת ההשראה שצירפת">
+          <span class="pd-text">
+            <span class="pd-label">תמונת ההשראה שצירפת</span>
+            <strong>${esc(state.designNote || 'עיצוב אישי')}</strong>
           </span>
         </div>` : ''}
 
@@ -1789,8 +1916,11 @@ function renderBooking() {
       $('#restartBook').addEventListener('click', () => {
         state.booking = { service: null, date: null, time: null, name: '', phone: '', notes: '' };
         state.design = null;
+        state.designMode = 'custom';
+        state.designNote = '';
+        state.designPhoto = null;
         state.step = 1;
-        renderPickedDesign();
+        renderDesignChoice();
         renderBooking();
       });
       toast('התור אושר ✨ (הדגמה)');
@@ -1837,6 +1967,7 @@ function initBooking() {
     renderBooking();
   });
 
+  renderDesignChoice();
   renderBooking();
 }
 
@@ -2089,7 +2220,7 @@ initReveal();
           <li data-step="5"><span>5</span>אישור</li>
         </ol>
 
-        <div class="picked-design" id="pickedDesign" hidden></div>
+        <div class="design-choice" id="designChoice"></div>
 
         <div class="booking-body" id="bookingBody"></div>
 

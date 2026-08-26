@@ -453,6 +453,41 @@ p.ltr { text-align: right; }
 .booking-foot { display: flex; align-items: center; gap: 1rem; margin-top: 1.4rem; }
 .booking-hint { margin: 0; font-size: var(--fs-xs); color: var(--espresso-60); }
 
+/* בחירת העיצוב לתור */
+.design-choice {
+  margin-bottom: 1.5rem; padding: 1rem 1.1rem 1.1rem;
+  background: var(--ivory); border: 1px solid var(--nude-soft); border-radius: var(--r-md);
+}
+.dc-head { display: flex; flex-wrap: wrap; align-items: center; gap: .7rem; margin-bottom: .9rem; }
+.dc-label { font-size: var(--fs-xs); font-weight: 600; letter-spacing: .06em; color: var(--nude); }
+.dc-tabs {
+  display: flex; gap: .2rem; margin-inline-start: auto;
+  padding: .2rem; background: var(--ivory-deep); border-radius: 999px;
+}
+.dc-tab {
+  padding: .4rem 1rem; border: 0; border-radius: 999px; background: none;
+  font-size: var(--fs-xs); font-weight: 600; color: var(--espresso-60);
+  transition: background-color .3s var(--ease), color .3s var(--ease);
+}
+.dc-tab.is-on { background: var(--cream); color: var(--espresso); box-shadow: var(--shadow-sm); }
+
+.dc-panel { display: grid; gap: .8rem; animation: stepIn .35s var(--ease-out); }
+.dc-field { display: grid; gap: .35rem; font-size: var(--fs-xs); color: var(--espresso-60); }
+.dc-field textarea {
+  width: 100%; padding: .8rem 1rem; font: inherit; font-size: var(--fs-sm); color: var(--espresso);
+  background: var(--white); border: 1px solid var(--line); border-radius: var(--r-md); resize: vertical;
+  transition: border-color .3s var(--ease), box-shadow .3s var(--ease);
+}
+.dc-field textarea:focus { outline: none; border-color: var(--nude); box-shadow: 0 0 0 3px rgba(201,164,140,.16); }
+
+.dc-upload { display: flex; flex-wrap: wrap; align-items: center; gap: .7rem; }
+.dc-hint { font-size: var(--fs-xs); color: var(--espresso-60); }
+.dc-thumb { display: flex; align-items: center; gap: .6rem; }
+.dc-thumb img { width: 44px; height: 56px; object-fit: cover; border-radius: var(--r-sm); border: 1px solid var(--line); }
+.dc-empty { display: flex; flex-wrap: wrap; align-items: center; gap: .8rem; }
+.dc-empty p { margin: 0; font-size: var(--fs-sm); color: var(--espresso-60); }
+.design-choice .picked-design { margin: 0; background: var(--cream); }
+
 /* --- למה אצלי --- */
 .values { display: grid; gap: .8rem; }
 .value {
